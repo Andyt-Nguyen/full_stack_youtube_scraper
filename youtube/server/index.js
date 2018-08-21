@@ -1,7 +1,7 @@
 const express = require('express') 
 const bodyParser = require('body-parser') // parses incoming json
 const mysql = require('mysql2') // mysql db
-const cors = require('cors')
+const cors = require('cors') // allow cross origin sites
 const morgan = require('morgan') // logs the time of each route
 const fs = require('fs') // read and write files
 const app = express() // create instance of express()
@@ -9,9 +9,7 @@ const PORT = process.env.PORT || 5000 // heroku inserts ther env port
 const frontPageRoutes = require('./api/routes/frontPageRoute') // youtube front page routes
 const userRoute = require('./api/routes/userRoute')
 
-require('dotenv').config()
 // Middleware
-// app.use()
 app.use(morgan('dev'))
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
