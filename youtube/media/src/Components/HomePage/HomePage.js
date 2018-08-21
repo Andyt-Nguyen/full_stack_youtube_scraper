@@ -4,14 +4,19 @@ import './css/style.css'
 import VideoAndContent from './SubComponents/VideoAndContent';
 import Slider from 'react-slick'
 import VideoSlider from './SubComponents/VideoSlider';
+import VideoSkeletonLoader from './SubComponents/VideoSkeletonLoader'
+import Skeleton from 'react-skeleton-loader'
 
 export default class HomePage extends Component {
     constructor() {
         super()
         this.state = {
-            trendingSect: [],
-            comedySect: [],
-            gamingSect: []
+            trendingSect: null,
+            comedySect: null,
+            gamingSect: null,
+            moviesSect: null,
+            sportsSect: null,
+            newsSect: null
         }
     }
 
@@ -28,18 +33,28 @@ export default class HomePage extends Component {
         this.callFrontPageApis('trending','trendingSect')
         this.callFrontPageApis('comedy','comedySect')
         this.callFrontPageApis('gaming','gamingSect')
+        this.callFrontPageApis('movies','moviesSect')
+        this.callFrontPageApis('sports','sportsSect')
+        this.callFrontPageApis('news','newsSect')
     }
 
     renderSection(stateName) {
+        const placeHolder = [1,2,3,4,5,6]
         const state = this.state
-        return state[stateName].map( a => (
-            <VideoAndContent 
-                title={a.title}
-                channelName={a.channelName}
-                lastUploaded={a.lastUploaded}
-                views={a.viewCount} 
-                img={a.thumbnail}/>))
-    }
+        if(state[stateName] === null) {
+            return placeHolder.map( a => <VideoSkeletonLoader />)
+        } else {
+            return state[stateName].map( a => (
+                <VideoAndContent 
+                    key={a.videoIds}
+                    title={a.title}
+                    channelName={a.channelName}
+                    lastUploaded={a.lastUploaded}
+                    views={a.viewCount} 
+                    img={a.thumbnail}/>))
+            }
+        }
+        
 
     componentDidMount() {
         this.getVideoSections()
@@ -59,6 +74,18 @@ export default class HomePage extends Component {
 
                 <VideoSlider categoryName="Comedy">
                     {this.renderSection("comedySect")}
+                </VideoSlider>
+
+                <VideoSlider categoryName="News">
+                    {this.renderSection("newsSect")}
+                </VideoSlider>
+
+                <VideoSlider categoryName="Movies">
+                    {this.renderSection("moviesSect")}
+                </VideoSlider>
+
+                <VideoSlider categoryName="Sports">
+                    {this.renderSection("sportsSect")}
                 </VideoSlider>
             </div>
         )
