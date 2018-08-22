@@ -47,11 +47,12 @@ export default class HomePage extends Component {
             return state[stateName].map( a => (
                 <VideoAndContent 
                     key={a.videoIds}
+                    videoId={a.videoIds}
                     title={a.title}
                     channelName={a.channelName}
                     lastUploaded={a.lastUploaded}
                     views={a.viewCount} 
-                    img={a.thumbnail}/>))
+                    img={a.thumbnail} />))
             }
         }
         

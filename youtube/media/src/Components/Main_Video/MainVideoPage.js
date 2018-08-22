@@ -9,12 +9,16 @@ import './css/media_query_471.css'
 import './css/media_query_995.css'
 
 export default class MainVideoPage extends Component {
+    parseVideoId() {
+        
+    }
+
     render () {
         return (
             <div className="container">
                 <div className="split_main_rec">
                     <div>
-                        <MainVideo />
+                        <MainVideo videoId={this.props.match.params.videoId}/>
                         <VideoTitle />
                         <UserInteraction />
                         <UserInfo />

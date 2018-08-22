@@ -8,7 +8,7 @@ export default class Main extends Component {
         return (
             <Switch>
                 <Route exact path="/" component={ HomePage } />
-                <Route exact path="/video" component={ MainVideoPage } />
+                <Route exact path="/watch_vod/:videoId" component={ MainVideoPage } />
             </Switch>
         )
     }

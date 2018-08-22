@@ -57,9 +57,10 @@ module.exports = {
             
                     videoTitles.each( (i, el) => {
                         const title = $(el).text()
-                        const link = $(el).attr('href')
+                        let link = $(el).attr('href')
                         theTitles.push(title)
-                        videoIdArr.push(link)
+                        link = link.split('/watch?v=')
+                        videoIdArr.push(link[1])
                     })
             
                     thumbnails.each( (i, el) => {
