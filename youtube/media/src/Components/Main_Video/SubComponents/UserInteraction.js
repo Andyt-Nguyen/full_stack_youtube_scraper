@@ -1,5 +1,5 @@
 import React from 'react'
-import { Icon } from '../Common'
+import { Icon } from '../../Common'
 
 
 export default () => (

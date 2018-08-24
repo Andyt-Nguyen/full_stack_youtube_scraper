@@ -128,7 +128,7 @@ module.exports = {
 
                     for(let i = 0; i < videoTitles.length; i++) {
                         let videoContent = {
-                            thumbnails: thumbnails[i],
+                            thumbnail: thumbnails[i],
                             channelName: channelNames[i],
                             duration: videoDur[i],
                             videoId: videosIdArr[i],
