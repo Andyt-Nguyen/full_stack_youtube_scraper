@@ -1,4 +1,5 @@
 const express = require('express') 
+const path = require('path')
 const bodyParser = require('body-parser') // parses incoming json
 const mysql = require('mysql2') // mysql db
 const cors = require('cors') // allow cross origin sites
@@ -13,7 +14,13 @@ const userRoute = require('./api/routes/userRoute')
 app.use(morgan('dev'))
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
+// app.use(express.static(path.join(__dirname, 'build_main')))
+// app.use(express.static(path.join(__dirname, 'build_login')))
 
+
+// app.get('/', function (req, res, next) {
+//     res.sendFile(path.join(__dirname, 'build_main', 'index.html'))
+// })
 
 // Allow CORS
 app.use(cors())
@@ -32,6 +39,7 @@ app.use(cors())
 //     next()
 // })
 
+// Api Routes
 app.use('/api/frontpage',frontPageRoutes)
 app.use('/api/users', userRoute)
 
@@ -48,5 +56,6 @@ app.use((err, req, res, next) => {
         message: err.message
     }})
 })
+
 
 app.listen(PORT, () => console.log(`The server is now listening on port ${PORT}...`))

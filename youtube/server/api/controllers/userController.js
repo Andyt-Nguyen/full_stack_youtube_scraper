@@ -17,7 +17,7 @@ module.exports = {
             bcrypt.hash(password, saltRounds, (err, hash) => { // This takes in the users password and hashes it 
                 if(!err) {                                     // because hashes can be decoded a salt is added to prevent that
                     const createUserQuery = `INSERT INTO users (user_id, username, password)
-                                                VALUES(?, ?, ?)`
+                                            VALUES(?, ?, ?)`
                     connection.query(createUserQuery,[uuid.v4(), username, hash], (err, resp) => { // This creates the user and uses the hash as the password
                         if(!err) {
                             res.status(200).json({message: 'User has been successfully added'})

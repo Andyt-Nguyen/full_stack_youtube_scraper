@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import NavBar from '../Nav/NavBar'
 import Category from './SubComponents/Category';
 import './css/style.css'
 import VideoAndContent from './SubComponents/VideoAndContent';
@@ -64,6 +65,8 @@ export default class HomePage extends Component {
     
     render() {
         return (
+            <React.Fragment>
+                <NavBar />
             <div className="homepage_container">
                 <VideoSlider categoryName="Trending">
                     {this.renderSection("trendingSect")}
@@ -89,6 +92,7 @@ export default class HomePage extends Component {
                     {this.renderSection("sportsSect")}
                 </VideoSlider>
             </div>
+            </React.Fragment>
         )
     }
 }

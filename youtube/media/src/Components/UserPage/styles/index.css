@@ -1,0 +1,127 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400');
+
+/* 
+  User Banner
+*/
+.obj-wrapper {
+    position:relative;
+    width:100%;
+    padding-bottom:16%;
+    height:0;
+    overflow:hidden;
+  }
+  .content {
+    position:absolute;
+    width:100%;
+    height:100%;
+    background: url('./placeholder.jpg');
+    background-position: center;
+    background-size: cover;
+  }
+
+  /* 
+    User Info that shows there username and views as well with the subscribers
+  */
+  .user_info_subscriber_wrapper {
+    display: flex;
+    justify-content: space-between;
+    width:97%;
+    margin: auto;
+    padding-top: 30px;
+    align-items: center;
+  }
+
+  ._user_info_container div p {
+    font-weight: 400;
+    font-family: 'Roboto';
+    font-size: 18px;
+  }
+
+  ._user_info_container div p:nth-child(2){
+    color:#a8a8a8;
+    font-size:14px
+  }
+
+  /* Subscriber btn */
+  .subscriber_btn {
+    font-family: 'Roboto';
+    font-weight: 400;
+    padding: 9px 15px;
+    border: none;
+    color: white;
+    background: red;
+    font-size: 13px;
+    /* font-weight: 400; */
+  }
+
+
+  .hide_avatar {
+    display: none;
+  }
+
+
+   /* Contains users avatar, username, subscribe count */
+   ._user_info_container {
+    display: flex;
+    align-items: center;
+  }
+
+  .user_info_subscriber_wrapper {
+    width: 70%;
+    max-width: 1280px
+  }
+
+   /* User Videos that is being displayed*/
+   .flex_row_vods {
+    margin: 0 auto;
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    width:450px;
+  }
+
+
+
+  @media screen and (min-width:430px) {
+    .user_info_subscriber_wrapper {
+      width: 428px
+    }
+  }
+
+  @media screen and (min-width: 680px) {
+    .flex_row_vods {
+      width: 648px;    
+    }
+
+    .user_info_subscriber_wrapper {
+      width: 78%;
+      max-width: 1280px
+    }
+    
+  }
+
+  @media screen and (min-width:701px) {
+    .hide_avatar {
+      display: block;
+    }
+
+    @media screen and (min-width: 880px) {
+      .flex_row_vods {
+        width: 865px;
+      }
+    }
+
+    @media screen and (min-width: 1090px) {
+      .flex_row_vods {
+        width: 1075px;
+      }
+    }
+
+    @media screen and (min-width: 1300px) {
+      .flex_row_vods {
+        width: 1290px;
+      }
+    }
+
+
+  }

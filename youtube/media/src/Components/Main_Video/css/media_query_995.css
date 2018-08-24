@@ -2,22 +2,20 @@
   
     .split_main_rec {
         display: flex;
-        justify-content: space-between;
         align-items: flex-start;
-        /* border: 2px solid black */
     }
 
     .rec_vid_container {
+        flex:1;
         margin-left: 20px;
+    }
+
+    .video_and_comments_container {
+        flex:2
     }
 
     .rec_videos {
         margin-top: 10px;
-    }
-
-    .mainVideoStyle {
-        width: ;
-        height: 500px;
     }
 
 }

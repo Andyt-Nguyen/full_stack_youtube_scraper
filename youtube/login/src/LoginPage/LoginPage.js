@@ -42,6 +42,7 @@ export default class LoginPage extends Component {
                 const { message } = data
                 if(message === 'Username already been created') this.setState({isUsername: true, isLoading:false})
                 else this.setState({isUsername: false,usernameMsg:message, isLoading:false})
+                if(message === 'User has been successfully added') this.setState({isSign:!this.state.isSign})
           })
           .catch(err => this.setState({isLoading:false, message:'Failed to load'}))
     }
@@ -58,24 +59,20 @@ export default class LoginPage extends Component {
         }).then(res => res.json())
           .then(data => {
               const { message } = data
+              console.log(data)
               if(message === 'User not found') this.setState({alreadyCreatedUserText:message,alreadyCreatedUser: true, isLoading:false})
               else this.setState({alreadyCreatedUser: false, isLoading:false})
               if(message === 'Password Failed') this.setState({alreadyCreatedPassText:message,alreadyCreatedPass: true, isLoading:false})
               else this.setState({alreadyCreatedPass: false, isLoading:false})
+              if(message === 'Auth successful') {
+                  localStorage.setItem('auth_token', JSON.stringify({token:data.token}))
+              }
             })
           .catch(err => this.setState({isLoading:false, message:'Failed to load'}))
     }
 
     switchView() {
         this.setState({isSign:!this.state.isSign})
-    }
-
-    showLoader() {
-        if(this.state.isLoading === null) {
-
-        } else {
-
-        }
     }
 
 
@@ -106,7 +103,7 @@ export default class LoginPage extends Component {
                         password={this.state.password} 
                         onChangeUsername={ e => this.setState({username:e.target.value})}
                         onChangePassword={ e => this.setState({password:e.target.value})} 
-                        animation={this.state.isSign ? 'slide_in' : 'slide_out'} />
+                        animation={this.state.isSign ? 'slide_out' : 'slide_in'} />
                     
 
                     <SignInfo
@@ -126,7 +123,7 @@ export default class LoginPage extends Component {
                         password={this.state.password} 
                         onChangeUsername={ e => this.setState({username:e.target.value})}
                         onChangePassword={ e => this.setState({password:e.target.value})} 
-                        animation={this.state.isSign ? 'slide_out' : 'slide_in'}/>
+                        animation={this.state.isSign ? 'slide_in' : 'slide_out'}/>
                 </LoginContainer>
             </React.Fragment>
             
