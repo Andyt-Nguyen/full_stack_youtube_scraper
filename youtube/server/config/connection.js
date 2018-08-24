@@ -15,5 +15,5 @@ else{ // Production
   });
 }
 
-// Export the Connection
+
 module.exports = connection;

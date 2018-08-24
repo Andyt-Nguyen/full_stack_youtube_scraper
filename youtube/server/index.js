@@ -9,6 +9,7 @@ const app = express() // create instance of express()
 const PORT = process.env.PORT || 5000 // heroku inserts ther env port
 const frontPageRoutes = require('./api/routes/frontPageRoute') // youtube front page routes
 const userRoute = require('./api/routes/userRoute')
+const queryRoute = require('./api/routes/queryRoute')
 
 // Middleware
 app.use(morgan('dev'))
@@ -39,9 +40,13 @@ app.use(cors())
 //     next()
 // })
 
+
+
 // Api Routes
 app.use('/api/frontpage',frontPageRoutes)
 app.use('/api/users', userRoute)
+app.use('/api/query', queryRoute)
+
 
 // error handling
 app.use((req, res, next) => {

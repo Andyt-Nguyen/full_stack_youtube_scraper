@@ -19,7 +19,7 @@ module.exports = {
             request(url, (err, resp, html) => {
                 if(!err && resp.statusCode == 200) {
                     const $ = cheerio.load(html)
-                    // console.log(html)
+                    console.log(html)
                     const thumbnails = $('.yt-thumb-simple img') // use .data('thumb') for id.attr('href')
                     const videoTime = $('.video-time') // use .text()
                     const videoTitles = $('.yt-lockup-title a') // use .text()
@@ -28,8 +28,6 @@ module.exports = {
                     const views = $('.yt-lockup-meta-info li:nth-child(2)') // use .text()
                     const userChannel = $('.yt-lockup-byline a') // use .text()
     
-
-
                     userChannel.each((i,el) => {
                         const text = $(el).text()
                         videoChannel.push(text)
@@ -68,6 +66,8 @@ module.exports = {
                         thumbnailArr.push(link)
                     })
 
+                    // console.log(theTitles)
+
 
                     for(let i = 0; i < theTitles.length; i++) {
                         let singleContent = {
@@ -82,16 +82,66 @@ module.exports = {
                             
                         mainContent.push(singleContent)
                     }
-
-                    // console.log(mainContent)
-
                     req.videos = mainContent
                     next()
                             
                 } else {
-                    console.log('There is an error getting the youtube endpoint')
+                    res.status(404).json({message:err})
                 }
             })
         }
+    },
+
+    recommendedScraper(url) {
+        return (req, res, next) => {
+            let thumbnails = []
+            let channelNames = []
+            let videoDur = []
+            let views = []
+            let videosIdArr = []
+            let videoTitles = []
+            let mainContent = []
+
+            request(url, (err, resp, html) => {
+                if(!err && resp.statusCode === 200) {
+                    const $ = cheerio.load(html)
+                    const content = $('.content-wrapper .content-link')
+                    // console.log(html)
+                    content.each((i, el) => {
+                        let stringOfContent = $(el).text().replace(/\s\s+/g, '|||')
+                        stringOfContent = stringOfContent.split('|||')
+                        videoTitles.push(stringOfContent[1])
+                        channelNames.push(stringOfContent[3])
+                        videoDur.push(stringOfContent[2])
+                        views.push(stringOfContent[4].split(' ')[0] +' views')
+                    })
+
+                    const videoIds = $('.content-wrapper a')
+                    videoIds.each((i, ele) => {
+                        const link = $(ele).attr('href')
+                        videosIdArr.push(link)
+                    })
+
+                    const thumbnail = $('.thumb-wrapper a span img')
+                    thumbnail.each((e, ele) => {
+                        thumbnails.push($(ele).data('thumb'))
+                    })
+
+                    for(let i = 0; i < videoTitles.length; i++) {
+                        let videoContent = {
+                            thumbnails: thumbnails[i],
+                            channelName: channelNames[i],
+                            duration: videoDur[i],
+                            videoId: videosIdArr[i],
+                            views: views[i],
+                            title: videoTitles[i]
+                        }
+                        mainContent.push(videoContent)
+                    }
+                    req.videos = mainContent
+                    next()
+                }
+            })
+        } 
     }
 }

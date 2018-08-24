@@ -73,18 +73,19 @@ module.exports = {
     saveUserVideo(table) { // This parameter takes in the table it wants to save to.
         return (req, res, next) => {
             const { user_id, video_id } = req.body
-            const insertQuery = `INSERT INTO ${table}(user_id, video_id) 
-                                Values(?, ?)`
-            connection.query(insertQuery,[user_id, video_id], (err, result) => {
+            const insertQuery = `INSERT INTO ? (user_id, video_id) 
+                                Values(?, ?, ?)`
+            connection.query(insertQuery,[table ,user_id, video_id], (err, result) => {
                 if(err) res.status(500).json({message:'Auth failed'})
                 else res.status(200).json({result})
             })
         }  
     },
     // Get videos of a certain category depending on the table
-    getVideos(table) {
+    // such as likes, history, or favorites
+    getUserVideoCateg(table) {
         return (req, res, next) => {
-            connection.query(`SELECT * FROM ${table}`, (err, videos) => {
+            connection.query(`SELECT * FROM ?`,[table], (err, videos) => {
                 if(err) return res.status(500).json({message: err})
                 else return res.status(200).json({videos})
             })
