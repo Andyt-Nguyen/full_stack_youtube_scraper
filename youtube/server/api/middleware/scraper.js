@@ -19,7 +19,6 @@ module.exports = {
             request(url, (err, resp, html) => {
                 if(!err && resp.statusCode == 200) {
                     const $ = cheerio.load(html)
-                    console.log(html)
                     const thumbnails = $('.yt-thumb-simple img') // use .data('thumb') for id.attr('href')
                     const videoTime = $('.video-time') // use .text()
                     const videoTitles = $('.yt-lockup-title a') // use .text()
@@ -102,7 +101,7 @@ module.exports = {
             let videoTitles = []
             let mainContent = []
 
-            request(url, (err, resp, html) => {
+            request(url + req.params.videoId, (err, resp, html) => {
                 if(!err && resp.statusCode === 200) {
                     const $ = cheerio.load(html)
                     const content = $('.content-wrapper .content-link')
