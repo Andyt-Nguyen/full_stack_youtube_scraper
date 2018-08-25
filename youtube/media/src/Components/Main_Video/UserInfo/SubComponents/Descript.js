@@ -1,10 +1,11 @@
 import React from 'react'
+import DOMPurify from 'dompurify'
 
-export default () => (
+export default ({desc}) => (
     <div style={{marginLeft:70}}>
-        <p style={{fontFamily:'serif',fontWeight:300, fontSize:15, lineHeight:'20px'}}>
-            is simply dummy text of the printing and typesetting industry. 
-            Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
+        <p
+            dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(desc)}} 
+            style={{fontFamily:'serif',fontWeight:300, fontSize:15, lineHeight:'20px'}}>
         </p>
     </div>
 )

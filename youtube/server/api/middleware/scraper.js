@@ -96,7 +96,7 @@ module.exports = {
             let thumbnails = []
             let channelNames = []
             let videoDur = []
-            let views = []
+            let recViewCounts = []
             let videosIdArr = []
             let videoTitles = []
             let mainContent = []
@@ -105,19 +105,43 @@ module.exports = {
                 if(!err && resp.statusCode === 200) {
                     const $ = cheerio.load(html)
                     const content = $('.content-wrapper .content-link')
+                    const recViewCount = $('.view-count')
+                    const mainVideoTitle = $('.watch-title').text().replace(/\s\s+/g, '')
+                    const mainVideoPublished = $('#watch-uploader-info').text()
+                    const mainVideoDesc = $('#eow-description').html()
+                    const mainVideoChannelName = $('.yt-user-info a').text()
+                    const mainVideoThumbnail = $('#watch7-user-header img').data('thumb')
+                    const mainVideoViews = $('#watch7-views-info .watch-view-count').text()
+                    const mainVideoSubCount = $('.yt-subscriber-count').text()
                     // console.log(html)
+                    let mainVideoContent = {
+                        title:mainVideoTitle,
+                        published:mainVideoPublished,
+                        desc:mainVideoDesc,
+                        channelName:mainVideoChannelName,
+                        thumbnail:mainVideoThumbnail,
+                        subCount:mainVideoSubCount,
+                        viewCount:mainVideoViews }
+                    // console.log(html)
+                    
                     content.each((i, el) => {
                         let stringOfContent = $(el).text().replace(/\s\s+/g, '|||')
                         stringOfContent = stringOfContent.split('|||')
                         videoTitles.push(stringOfContent[1])
                         channelNames.push(stringOfContent[3])
                         videoDur.push(stringOfContent[2])
-                        views.push(stringOfContent[4].split(' ')[0] +' views')
                     })
+                    
+                    recViewCount.each((i, el) => {
+                        recViewCounts.push($(el).text())
+                    })
+
 
                     const videoIds = $('.content-wrapper a')
                     videoIds.each((i, ele) => {
-                        const link = $(ele).attr('href')
+                        let link = $(ele).attr('href')
+                        link = link.split('=')[1]
+                        console.log(link)
                         videosIdArr.push(link)
                     })
 
@@ -132,12 +156,12 @@ module.exports = {
                             channelName: channelNames[i],
                             duration: videoDur[i],
                             videoId: videosIdArr[i],
-                            views: views[i],
+                            views: recViewCounts[i],
                             title: videoTitles[i]
                         }
                         mainContent.push(videoContent)
                     }
-                    req.videos = mainContent
+                    req.videos = [mainContent, mainVideoContent]
                     next()
                 }
             })

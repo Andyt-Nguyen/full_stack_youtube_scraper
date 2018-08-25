@@ -11,7 +11,7 @@ export default class Main extends Component {
             <Switch>
                 <Route exact path="/" component={ HomePage } />
                 <Route exact path="/watch_vod/:videoId" component={ MainVideoPage } />
-                <Route exact path="/authenticate" component={ LoginPage } />
+                <Route exact path="/signin" component={ LoginPage } />
                 <Route exact path="/user/:id" component={ UserPage } />
             </Switch>
         )

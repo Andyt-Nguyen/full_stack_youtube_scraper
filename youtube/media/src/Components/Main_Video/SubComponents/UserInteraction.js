@@ -2,10 +2,10 @@ import React from 'react'
 import { Icon } from '../../Common'
 
 
-export default () => (
+export default ({views}) => (
     <div className="userInteraction">
     
-        <p style={{fontFamily:'Roboto',fontSize:'16px',color:'#b1b1b1',fontWeight:'300'}}>344k views</p>
+        <p style={{fontFamily:'Roboto',fontSize:'16px',color:'#b1b1b1',fontWeight:'300'}}>{views}</p>
 
         <div className="likes_and_shares">
             <div>

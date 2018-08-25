@@ -8,6 +8,7 @@
     .rec_vid_container {
         flex:1;
         margin-left: 20px;
+        padding-top:21px;
     }
 
     .video_and_comments_container {
@@ -17,5 +18,6 @@
     .rec_videos {
         margin-top: 10px;
     }
+    
 
 }

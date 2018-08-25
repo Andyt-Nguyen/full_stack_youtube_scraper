@@ -1,7 +1,7 @@
 import React from 'react'
 
-export default () => (
+export default ({title}) => (
     <div style={{marginBottom:'10px'}}>
-        <p style={{fontFamily:'Roboto', fontSize:18}}>Jordan Peterson At TPUSA’s Young Women’s Leadership Summit 2018</p>
+        <p style={{fontFamily:'Roboto', fontSize:18}}>{title}</p>
     </div>
 )

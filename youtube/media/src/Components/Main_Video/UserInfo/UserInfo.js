@@ -16,33 +16,33 @@ const styles = {
     }
 }
 
-export default () => (
+export default ({subCount,thumbnail,username, publisedAt, desc}) => (
     <div className="userInfoContainer">
 
         <div className="avatar_subscribe">
             
             <div style={{display:'flex', width: '230px', justifyContent:'space-between'}}>
                 <div>
-                    <Avatar image={"https://ih0.redbubble.net/image.506735559.4560/flat,1000x1000,075,f.u1.jpg"}/>
+                    <Avatar image={thumbnail}/>
                 </div>
 
 
 
                 <div>
-                    <h1 style={{fontWeigth:400,fontSize:'13px', color:'#000'}}>UserName</h1>
-                    <p style={{fontWeight:300, fontSize:'13px', color:'#707070'}}>Published on July 5th, 2018</p>
+                    <h1 style={{fontWeigth:400,fontSize:'13px', color:'#000'}}>{username}</h1>
+                    <p style={{fontWeight:300, fontSize:'13px', color:'#707070'}}>{publisedAt}</p>
                 </div>
             </div>
 
 
 
             <div>
-                <button style={styles.subscribeBtn}>Subscribe <span style={{color:'#ffd9d9', fontSize:15}}>40k</span></button>
+                <button style={styles.subscribeBtn}>Subscribe <span style={{color:'#ffd9d9', fontSize:15}}>{subCount}</span></button>
             </div>
 
         </div>
 
-        <Descript />
+        <Descript desc={desc}/>
     </div>
 )
 

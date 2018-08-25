@@ -15,13 +15,7 @@ const queryRoute = require('./api/routes/queryRoute')
 app.use(morgan('dev'))
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
-// app.use(express.static(path.join(__dirname, 'build_main')))
-// app.use(express.static(path.join(__dirname, 'build_login')))
 
-
-// app.get('/', function (req, res, next) {
-//     res.sendFile(path.join(__dirname, 'build_main', 'index.html'))
-// })
 
 // Allow CORS
 app.use(cors())
