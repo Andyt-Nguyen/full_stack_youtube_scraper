@@ -7,6 +7,7 @@ import UserInteraction from './SubComponents/UserInteraction';
 import UserInfo from './UserInfo/UserInfo';
 import RecommendedVideos from './SubComponents/RecommendedVid/RecommendedVideos';
 import Video from './SubComponents/RecommendedVid/SubComponents/Video';
+import { VideoSkeletonLoader } from '../Common'
 import './css/main_video.css'
 import './css/media_query_471.css'
 import './css/media_query_995.css'
@@ -15,7 +16,7 @@ export default class MainVideoPage extends Component {
     constructor() {
         super()
         this.state = {
-            recVideos: [],
+            recVideos: null,
             mainvVideoContent: []
         }
     }
@@ -39,10 +40,16 @@ export default class MainVideoPage extends Component {
     }
 
     componentWillReceiveProps(nextProps){
+        this.setState({recVideos:null})
         if (this.props.match.params.videoId !== nextProps.match.params.videoId) {
             this.getRecVideos(nextProps.match.params.videoId);
             window.scrollTo(0, 0)
         }
+    }
+
+    renderSkeletonLoader() {
+        const placeholder = [1,2,3,4,5,6,7]
+        return placeholder.map( a => <VideoSkeletonLoader key={a} displayFlex={true}/>)
     }
     
 
@@ -71,7 +78,11 @@ export default class MainVideoPage extends Component {
                             publisedAt={this.state.mainvVideoContent.published}/>
                     </div>
                     <RecommendedVideos>
-                        {this.renderRecVideos()}
+                        {
+                            this.state.recVideos === null
+                            ? this.renderSkeletonLoader()
+                            : this.renderRecVideos()
+                        }
                     </RecommendedVideos>
                 </div>
             </div>
