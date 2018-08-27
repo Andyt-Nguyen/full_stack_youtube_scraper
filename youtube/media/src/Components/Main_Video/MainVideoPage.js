@@ -26,6 +26,30 @@ export default class MainVideoPage extends Component {
         }
     }
 
+    saveToUserHistory() {
+        try {
+            const jwt = JSON.parse(localStorage.getItem('auth_token')).token
+            const user_id = JSON.parse(localStorage.getItem('auth_token')).user_id
+            const { videoId:video_id } = this.props.match.params
+
+            fetch('http://localhost:5000/api/users/saveHistory', {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json',
+                    'Authorization': `Bearer ${jwt}`
+                },
+                body: JSON.stringify({user_id,video_id})
+            }).then(  res => res.json())
+              .then(  data => console.log(data))
+              .catch( err => console.log(err))
+        } catch(error) {
+
+            console.log("User not authed")
+
+        }
+        
+    }
+
     getRecVideos(videoId) {
         fetch(`http://localhost:5000/api/query/recommended/${videoId}`)
             .then( res => res.json() )
@@ -43,7 +67,13 @@ export default class MainVideoPage extends Component {
             </Link>
         ))
     }
+    
+    renderSkeletonLoader() {
+        const placeholder = [1,2,3,4,5,6,7]
+        return placeholder.map( a => <VideoSkeletonLoader key={a} displayFlex={true}/>)
+    }
 
+    
     componentWillReceiveProps(nextProps){
         this.setState({recVideos:null, mainvVideoContent:null})
         if (this.props.match.params.videoId !== nextProps.match.params.videoId) {
@@ -52,16 +82,12 @@ export default class MainVideoPage extends Component {
         }
     }
 
-    renderSkeletonLoader() {
-        const placeholder = [1,2,3,4,5,6,7]
-        return placeholder.map( a => <VideoSkeletonLoader key={a} displayFlex={true}/>)
-    }
     
-
     componentDidMount() {
         const videoId = this.props.match.params.videoId
         this.getRecVideos(videoId)
         window.scrollTo(0, 0)
+        // this.saveToUserHistory()
     }
 
     render() {

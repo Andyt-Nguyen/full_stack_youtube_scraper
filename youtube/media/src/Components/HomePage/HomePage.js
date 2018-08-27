@@ -43,7 +43,7 @@ export default class HomePage extends Component {
         const placeHolder = [1,2,3,4,5,6]
         const state = this.state
         if(state[stateName] === null) {
-            return placeHolder.map( a => <VideoSkeletonLoader />)
+            return placeHolder.map( a => <VideoSkeletonLoader key={a} />)
         } else {
             return state[stateName].map( a => (
                 <VideoAndContent 
