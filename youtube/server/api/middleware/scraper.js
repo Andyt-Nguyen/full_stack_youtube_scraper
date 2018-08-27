@@ -113,7 +113,7 @@ module.exports = {
                     const mainVideoThumbnail = $('#watch7-user-header img').data('thumb')
                     const mainVideoViews = $('#watch7-views-info .watch-view-count').text()
                     const mainVideoSubCount = $('.yt-subscriber-count').text()
-                    // console.log(html)
+
                     let mainVideoContent = {
                         title:mainVideoTitle,
                         published:mainVideoPublished,
@@ -122,7 +122,6 @@ module.exports = {
                         thumbnail:mainVideoThumbnail,
                         subCount:mainVideoSubCount,
                         viewCount:mainVideoViews }
-                    // console.log(html)
                     
                     content.each((i, el) => {
                         let stringOfContent = $(el).text().replace(/\s\s+/g, '|||')
@@ -141,7 +140,6 @@ module.exports = {
                     videoIds.each((i, ele) => {
                         let link = $(ele).attr('href')
                         link = link.split('=')[1]
-                        console.log(link)
                         videosIdArr.push(link)
                     })
 

@@ -8,6 +8,11 @@ import UserInfo from './UserInfo/UserInfo';
 import RecommendedVideos from './SubComponents/RecommendedVid/RecommendedVideos';
 import Video from './SubComponents/RecommendedVid/SubComponents/Video';
 import { VideoSkeletonLoader } from '../Common'
+import TitleLoader from './SubComponents/Loader/TitleLoader'
+import UserInteractionLoader from './SubComponents/Loader/UserInteractionLoader'
+import UserInfoLoader from './SubComponents/Loader/UserInfoLoader'
+import MainVideoLoader from './SubComponents/Loader/MainVideoLoader'
+
 import './css/main_video.css'
 import './css/media_query_471.css'
 import './css/media_query_995.css'
@@ -17,7 +22,7 @@ export default class MainVideoPage extends Component {
         super()
         this.state = {
             recVideos: null,
-            mainvVideoContent: []
+            mainvVideoContent: null
         }
     }
 
@@ -40,7 +45,7 @@ export default class MainVideoPage extends Component {
     }
 
     componentWillReceiveProps(nextProps){
-        this.setState({recVideos:null})
+        this.setState({recVideos:null, mainvVideoContent:null})
         if (this.props.match.params.videoId !== nextProps.match.params.videoId) {
             this.getRecVideos(nextProps.match.params.videoId);
             window.scrollTo(0, 0)
@@ -66,20 +71,41 @@ export default class MainVideoPage extends Component {
             <div className="container">
                 <div className="split_main_rec">
                     <div className="video_and_comments_container">
-                        <MainVideo videoId={this.props.match.params.videoId}/>
-                        <VideoTitle title={this.state.mainvVideoContent.title}/>
-                        <UserInteraction 
-                            views={this.state.mainvVideoContent.viewCount}/>
-                        <UserInfo
-                            subCount={this.state.mainvVideoContent.subCount}
-                            desc={this.state.mainvVideoContent.desc}
-                            thumbnail={this.state.mainvVideoContent.thumbnail} 
-                            username={this.state.mainvVideoContent.channelName} 
-                            publisedAt={this.state.mainvVideoContent.published}/>
+                        {
+                            this.state.mainvVideoContent == null
+                            ? <MainVideoLoader />
+                            : <MainVideo videoId={this.props.match.params.videoId} />
+                        }
+                        
+                        {
+                            this.state.mainvVideoContent == null
+                            ? <TitleLoader />
+                            : <VideoTitle title={this.state.mainvVideoContent.title} />
+                        }
+                        
+                        { 
+                            this.state.mainvVideoContent == null
+                            ? <UserInteractionLoader />
+                            : <UserInteraction 
+                                 views={this.state.mainvVideoContent.viewCount}/>
+                        }
+
+                        {
+                            this.state.mainvVideoContent == null
+                            ? <UserInfoLoader />
+                            : <UserInfo
+                                subCount={this.state.mainvVideoContent.subCount}
+                                desc={this.state.mainvVideoContent.desc}
+                                thumbnail={this.state.mainvVideoContent.thumbnail} 
+                                username={this.state.mainvVideoContent.channelName} 
+                                publisedAt={this.state.mainvVideoContent.published}/>
+                        }
+                       
+                        
                     </div>
                     <RecommendedVideos>
                         {
-                            this.state.recVideos === null
+                            this.state.recVideos == null
                             ? this.renderSkeletonLoader()
                             : this.renderRecVideos()
                         }
