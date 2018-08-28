@@ -22,8 +22,57 @@ export default class MainVideoPage extends Component {
         super()
         this.state = {
             recVideos: null,
-            mainvVideoContent: null
+            mainvVideoContent: null,
+            iconColorRed: '#b1b1b1',
+            iconColorBlue: '#b1b1b1'
         }
+    }
+
+    onMouseEnterRed() {
+        this.setState({iconColorRed:'red'})
+    }
+
+    onMouseLeaveRed() {
+        this.setState({iconColorRed:'#b1b1b1'})
+    }
+
+    onMouseEnterBlue() {
+        this.setState({iconColorBlue:'dodgerblue'})
+    }
+
+    onMouseLeaveBlue() {
+        this.setState({iconColorBlue:'#b1b1b1'})
+    }
+
+    saveToUserProfile(url) {
+        try {
+            const { token, user_id, username } = JSON.parse(localStorage.getItem('auth_token'))
+            const { videoId:video_id } = this.props.match.params
+            fetch(`http://localhost:5000/api/users/${url}`, {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    username,user_id,video_id,
+                    title:this.state.mainvVideoContent.title,
+                    channel_name:this.state.mainvVideoContent.channelName,
+                    thumbnail:this.props.location.state.vidThumbnail,
+                    views:this.state.mainvVideoContent.viewCount, 
+                    published_at:this.state.mainvVideoContent.published})
+            }).catch( err => console.log(err))
+        } catch(error) {
+            console.log(error)
+        }
+    }
+
+    saveToFavorites() {
+        this.saveToUserProfile('saveFavorites')
+    }
+
+    saveToLikes() {
+        this.saveToUserProfile('saveLikes')
     }
 
     saveToUserHistory() {
@@ -116,8 +165,16 @@ export default class MainVideoPage extends Component {
                         { 
                             this.state.mainvVideoContent == null
                             ? <UserInteractionLoader />
-                            : <UserInteraction 
-                                 views={this.state.mainvVideoContent.viewCount}/>
+                            : <UserInteraction
+                                onMouseEnterBlue={this.onMouseEnterBlue.bind(this)}
+                                onMouseLeaveBlue={this.onMouseLeaveBlue.bind(this)}
+                                onMouseEnterRed={this.onMouseEnterRed.bind(this)}
+                                onMouseLeaveRed={this.onMouseLeaveRed.bind(this)}
+                                iconColorRed={this.state.iconColorRed}
+                                iconColorBlue={this.state.iconColorBlue}
+                                saveToFavorites={this.saveToFavorites.bind(this)}
+                                saveToLikes={this.saveToLikes.bind(this)} 
+                                views={this.state.mainvVideoContent.viewCount}/>
                         }
 
                         {
