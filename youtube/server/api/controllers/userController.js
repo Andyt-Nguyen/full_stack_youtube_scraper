@@ -78,23 +78,28 @@ module.exports = {
     saveUserVideo(table) { // This parameter takes in the table it wants to save to.
         return (req, res, next) => {
             const { username, user_id, video_id, channel_name, thumbnail, title, published_at, views } = req.body
-            console.log(req.body)
-            const insertQuery = `INSERT INTO ${table} (username, user_id, video_id, channel_name, thumbnail, title, published_at, views) 
+            const insertQuery = `INSERT INTO ${table} 
+                                        (username, user_id, video_id, channel_name, thumbnail, title, published_at, views) 
                                  Values(?,?,?,?,?,?,?,?)`
-            connection.query(insertQuery,[username, user_id, video_id, title, thumbnail, title, published_at, views], (err, result) => {
-                if(err) {
-                    console.log(err)
-                    res.status(500).json({message:'Failed to save'})
-                }
-                else res.status(200).json({message: 'added to history'})
-            })
+            
+            if(req.body.thumbnail == null || req.body.thumbnail == undefined) {
+                return res.status(500).json({message:'Failed to save'})
+            } else {
+                connection.query(insertQuery,[username, user_id, video_id, channel_name, thumbnail, title, published_at, views], (err, result) => {
+                    if(err) {
+                        console.log(err)
+                        res.status(500).json({message:'Failed to save'})
+                    }
+                    else res.status(200).json({message: 'added to history'})
+                })
+            }
         }  
     },
     // Get videos of a certain category depending on the table
     // such as likes, history, or favorites
     getUserVideoCateg(table) {
         return (req, res, next) => {
-            connection.query(`SELECT video_id FROM ${table}
+            connection.query(`SELECT distinct title,video_id,channel_name,thumbnail,views,published_at FROM ${table}
                               WHERE username = ?`, [req.params.username],(err, videos) => {
                 if(err) return res.status(500).json({message: err})
                 else return res.status(200).json({videos})

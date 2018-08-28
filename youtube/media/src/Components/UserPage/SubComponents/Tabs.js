@@ -17,7 +17,9 @@ function TabContainer(props) {
 class SimpleTabs extends React.Component {
   state = {
     value: 0,
-    likedVideos: null
+    likedVideos: null,
+    historyVideos: [],
+    favoriteVideos: []
   };
 
   handleChange = (event, value) => {
@@ -26,27 +28,47 @@ class SimpleTabs extends React.Component {
 
   getUserLikes() {
     let placeholder = [1,2,3,4,5,6]
-    if(this.state.likedVideos === null) {
+    if(true) {
       return placeholder.map((a,i) => <VideoSkeletonLoader key={i} />)
     }
   }
 
-  getUserHistory() {
+  getUsersVideoCategs(url, state) {
     try {
       const jwt = JSON.parse(localStorage.getItem('auth_token')).token
       const user_id = JSON.parse(localStorage.getItem('auth_token')).user_id
-      
-      fetch(`http://localhost:5000/api/users/getUserHistory/${this.props.match.params.username}`)
+      fetch(`http://localhost:5000/api/users/${url}/${this.props.match.params.username}`)
         .then( res => res.json())
-        .then( data => console.log(data))
-
+        .then( data => this.setState({[state]:data.videos}))
     } catch(error) {
       console.log(error)
     }
   }
 
+  renderHistoryVideos() {
+    return this.state.historyVideos.map( a => (
+      <VideoAndContent
+          container_style={{marginTop:20, marginRight:3}}
+          videoId={a.video_id}
+          img={a.thumbnail}
+          views={a.views}
+          lastUploaded={a.lastUploaded}
+          title={a.title}
+          channelName={a.channel_name} />
+    ))
+  }
+
+  renderSkeletonLoader() {
+    let placeholder = [1,2,3,4,5,6]
+    if(this.state.likedVideos === null) {
+      return placeholder.map((a,i) => <VideoSkeletonLoader key={i} />)
+    }
+  }
+
   componentDidMount() {
-    this.getUserHistory()
+    this.getUsersVideoCategs('getUserHistory', 'historyVideos')
+    this.getUsersVideoCategs('getUserLikes', 'likedVideos')
+    this.getUsersVideoCategs('getUserFavorites', 'favoriteVideos')
   }
 
   render() {
@@ -149,7 +171,13 @@ class SimpleTabs extends React.Component {
 
         {value === 2 &&
            <TabContainer>
-             Item Three
+             <div className="flex_row_vods">
+              {
+                this.state.historyVideos == null
+                ? this.renderSkeletonLoader()
+                : this.renderHistoryVideos()
+              }
+             </div>
            </TabContainer>}
       </div>
     );

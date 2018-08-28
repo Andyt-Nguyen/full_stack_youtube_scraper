@@ -1,7 +1,7 @@
 const request = require('request') // make api request
 const cheerio = require('cheerio') // web crawler
 const connection = require('../../config/connection')
-
+const moment = require('moment') // makes timestamp
 module.exports = {
     youtubeScraper(url) {
         return (req, res, next) => {
@@ -64,9 +64,6 @@ module.exports = {
                         const link = $(el).data('thumb')
                         thumbnailArr.push(link)
                     })
-
-                    // console.log(theTitles)
-
 
                     for(let i = 0; i < theTitles.length; i++) {
                         let singleContent = {

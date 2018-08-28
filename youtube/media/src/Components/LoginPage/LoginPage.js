@@ -59,7 +59,6 @@ export default class LoginPage extends Component {
         }).then(res => res.json())
           .then(data => {
               const { message } = data
-              console.log(data)
               if(message === 'User not found') this.setState({alreadyCreatedUserText:message,alreadyCreatedUser: true, isLoading:false})
               else this.setState({alreadyCreatedUser: false, isLoading:false})
               if(message === 'Password Failed') this.setState({alreadyCreatedPassText:"Invalid Password",alreadyCreatedPass: true, isLoading:false})

@@ -30,8 +30,6 @@ export default class MainVideoPage extends Component {
         try {
             const { token, user_id, username } = JSON.parse(localStorage.getItem('auth_token'))
             const { videoId:video_id } = this.props.match.params
-            
-            const {title, channelName:channel_name, img:thumbnail, views, lastUploaded} = this.props.location.state
             fetch('http://localhost:5000/api/users/saveHistory', {
                 method: 'POST',
                 headers: {
@@ -39,27 +37,33 @@ export default class MainVideoPage extends Component {
                     'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify({
-                    username,user_id,
-                    video_id, title,
-                    channel_name, thumbnail,
-                    views, published_at:lastUploaded})
-            }).then(  res => res.json())
-              .then(  data => console.log(data))
-              .catch( err => console.log(err))
+                    username,user_id,video_id,
+                    title:this.state.mainvVideoContent.title,
+                    channel_name:this.state.mainvVideoContent.channelName,
+                    thumbnail:this.props.location.state.vidThumbnail,
+                    views:this.state.mainvVideoContent.viewCount, 
+                    published_at:this.state.mainvVideoContent.published})
+            }).catch( err => console.log(err))
         } catch(error) {
             console.log(error)
         }
     }
 
-    getRecVideos(videoId) {
+    getRecVideos(videoId, cb) {
         fetch(`http://localhost:5000/api/query/recommended/${videoId}`)
             .then( res => res.json() )
-            .then( recVideos => this.setState({ mainvVideoContent:recVideos[1],recVideos:recVideos[0] }))
+            .then( recVideos => this.setState({ mainvVideoContent:recVideos[1],recVideos:recVideos[0]}, () => cb()))
     }
 
     renderRecVideos() {
         return this.state.recVideos.map( a => (
-            <Link key={a.videoId} style={{textDecoration:'none', color:'#000'}} to={`/watch_vod/${a.videoId}`}>
+            <Link 
+                key={a.videoId} 
+                style={{textDecoration:'none', color:'#000'}} 
+                to={{
+                    pathname:`/watch_vod/${a.videoId}`, 
+                    state:{vidThumbnail:a.thumbnail}
+                    }}>
                 <Video 
                     img={a.thumbnail} 
                     title={a.title} 
@@ -78,7 +82,7 @@ export default class MainVideoPage extends Component {
     componentWillReceiveProps(nextProps){
         this.setState({recVideos:null, mainvVideoContent:null})
         if (this.props.match.params.videoId !== nextProps.match.params.videoId) {
-            this.getRecVideos(nextProps.match.params.videoId);
+            this.getRecVideos(nextProps.match.params.videoId, this.saveToUserHistory.bind(this))
             window.scrollTo(0, 0)
         }
     }
@@ -86,13 +90,11 @@ export default class MainVideoPage extends Component {
     
     componentDidMount() {
         const videoId = this.props.match.params.videoId
-        this.getRecVideos(videoId)
+        this.getRecVideos(videoId, this.saveToUserHistory.bind(this))
         window.scrollTo(0, 0)
-        this.saveToUserHistory()
     }
 
     render() {
-        console.log(this.props.location.state)
         return (
             <React.Fragment>
             <NavBar />

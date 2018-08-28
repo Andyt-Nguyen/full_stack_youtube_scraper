@@ -7,7 +7,6 @@ module.exports = (req, res, next) => {
         token = token.split(' ')[1]
         const decoded = jwt.verify(token, process.env.JWT_KEY)
         req.userData = decoded
-        console.log('AUTH CORRECT')
         next()
 
     } catch (error) {
