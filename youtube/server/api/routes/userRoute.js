@@ -11,9 +11,9 @@ router.post('/saveFavorites', validate, saveUserVideo('user_favorites')) // add 
 router.post('/saveLikes', validate, saveUserVideo('user_likes')) // add to user likes
 
 
-router.get('/getUserLikes', validate, getUserVideoCateg('user_likes')) // get the user likes
-router.get('/getUserHistory', validate, getUserVideoCateg('user_history')) // get the users history
-router.get('/getUserFavorites', validate, getUserVideoCateg('user_favorites')) // get user favorites
+router.get('/getUserLikes/:username', getUserVideoCateg('user_likes')) // get the user likes
+router.get('/getUserHistory/:username', getUserVideoCateg('user_history')) // get the users history
+router.get('/getUserFavorites/:username', getUserVideoCateg('user_favorites')) // get user favorites
 
 
 module.exports = router

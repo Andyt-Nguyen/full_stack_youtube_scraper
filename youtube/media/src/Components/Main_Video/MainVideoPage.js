@@ -28,26 +28,27 @@ export default class MainVideoPage extends Component {
 
     saveToUserHistory() {
         try {
-            const jwt = JSON.parse(localStorage.getItem('auth_token')).token
-            const user_id = JSON.parse(localStorage.getItem('auth_token')).user_id
+            const { token, user_id, username } = JSON.parse(localStorage.getItem('auth_token'))
             const { videoId:video_id } = this.props.match.params
-
+            
+            const {title, channelName:channel_name, img:thumbnail, views, lastUploaded} = this.props.location.state
             fetch('http://localhost:5000/api/users/saveHistory', {
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json',
-                    'Authorization': `Bearer ${jwt}`
+                    'Authorization': `Bearer ${token}`
                 },
-                body: JSON.stringify({user_id,video_id})
+                body: JSON.stringify({
+                    username,user_id,
+                    video_id, title,
+                    channel_name, thumbnail,
+                    views, published_at:lastUploaded})
             }).then(  res => res.json())
               .then(  data => console.log(data))
               .catch( err => console.log(err))
         } catch(error) {
-
-            console.log("User not authed")
-
+            console.log(error)
         }
-        
     }
 
     getRecVideos(videoId) {
@@ -87,10 +88,11 @@ export default class MainVideoPage extends Component {
         const videoId = this.props.match.params.videoId
         this.getRecVideos(videoId)
         window.scrollTo(0, 0)
-        // this.saveToUserHistory()
+        this.saveToUserHistory()
     }
 
     render() {
+        console.log(this.props.location.state)
         return (
             <React.Fragment>
             <NavBar />
@@ -124,7 +126,7 @@ export default class MainVideoPage extends Component {
                                 desc={this.state.mainvVideoContent.desc}
                                 thumbnail={this.state.mainvVideoContent.thumbnail} 
                                 username={this.state.mainvVideoContent.channelName} 
-                                publisedAt={this.state.mainvVideoContent.published}/>
+                                publishedAt={this.state.mainvVideoContent.published}/>
                         }
                        
                         

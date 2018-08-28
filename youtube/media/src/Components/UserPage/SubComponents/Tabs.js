@@ -4,6 +4,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import { VideoAndContent, VideoSkeletonLoader } from '../../Common'
+import { withRouter } from 'react-router-dom'
 
 function TabContainer(props) {
   return (
@@ -28,6 +29,24 @@ class SimpleTabs extends React.Component {
     if(this.state.likedVideos === null) {
       return placeholder.map((a,i) => <VideoSkeletonLoader key={i} />)
     }
+  }
+
+  getUserHistory() {
+    try {
+      const jwt = JSON.parse(localStorage.getItem('auth_token')).token
+      const user_id = JSON.parse(localStorage.getItem('auth_token')).user_id
+      
+      fetch(`http://localhost:5000/api/users/getUserHistory/${this.props.match.params.username}`)
+        .then( res => res.json())
+        .then( data => console.log(data))
+
+    } catch(error) {
+      console.log(error)
+    }
+  }
+
+  componentDidMount() {
+    this.getUserHistory()
   }
 
   render() {
@@ -138,4 +157,4 @@ class SimpleTabs extends React.Component {
 }
 
 
-export default (SimpleTabs);
+export default withRouter(SimpleTabs);

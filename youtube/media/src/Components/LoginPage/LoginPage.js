@@ -65,7 +65,7 @@ export default class LoginPage extends Component {
               if(message === 'Password Failed') this.setState({alreadyCreatedPassText:"Invalid Password",alreadyCreatedPass: true, isLoading:false})
               else this.setState({alreadyCreatedPass: false, isLoading:false})
               if(message === 'Auth successful') {
-                  localStorage.setItem('auth_token', JSON.stringify({token:data.token,user_id: data.user_id}))
+                  localStorage.setItem('auth_token', JSON.stringify({token:data.token,user_id: data.user_id, username:data.username}))
                   this.props.history.push('/')
               }
             })

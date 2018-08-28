@@ -57,14 +57,17 @@ module.exports = {
                       its own private/public key to make sure that it is verified.
 
                 */
-               console.log(req.users[0].user_id)
 
                 const token = jwt.sign({
                     username: req.users[0].username,  // This first parameter is the payload so what we want to pass into the token
                     user_id: req.users[0].user_id  // I am generating the token with the users username and user_id
                 }, process.env.JWT_KEY, { // In this argument we pass a "secret" key which is only known to the server
                     expiresIn: "1hr" }) // [OPTIONS] The expiration date of how long the token should last
-                return res.status(200).json({message:'Auth successful', token, user_id: req.users[0].user_id})
+                return res.status(200).json({
+                    token, 
+                    message:'Auth successful',
+                    username:req.users[0].username, 
+                    user_id: req.users[0].user_id})
             }
             // If the passwords don't match a message to the user Auth Failed will be returned back to the client
             res.status(404).json({message:'Password Failed'})
@@ -74,11 +77,11 @@ module.exports = {
     // This function saves the users video and the parameter makes sure what to save to such as (history, likes, history)
     saveUserVideo(table) { // This parameter takes in the table it wants to save to.
         return (req, res, next) => {
-            const { user_id, video_id } = req.body
+            const { username, user_id, video_id, channel_name, thumbnail, title, published_at, views } = req.body
             console.log(req.body)
-            const insertQuery = `INSERT INTO ${table} (user_id, video_id) 
-                                 Values(?,?)`
-            connection.query(insertQuery,[user_id, video_id], (err, result) => {
+            const insertQuery = `INSERT INTO ${table} (username, user_id, video_id, channel_name, thumbnail, title, published_at, views) 
+                                 Values(?,?,?,?,?,?,?,?)`
+            connection.query(insertQuery,[username, user_id, video_id, title, thumbnail, title, published_at, views], (err, result) => {
                 if(err) {
                     console.log(err)
                     res.status(500).json({message:'Failed to save'})
@@ -91,7 +94,8 @@ module.exports = {
     // such as likes, history, or favorites
     getUserVideoCateg(table) {
         return (req, res, next) => {
-            connection.query(`SELECT * FROM ?`,[table], (err, videos) => {
+            connection.query(`SELECT video_id FROM ${table}
+                              WHERE username = ?`, [req.params.username],(err, videos) => {
                 if(err) return res.status(500).json({message: err})
                 else return res.status(200).json({videos})
             })

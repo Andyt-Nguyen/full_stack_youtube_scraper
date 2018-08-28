@@ -4,7 +4,7 @@ import Thumbnail from './Thumbnail';
 
 export default ({title, channelName, lastUploaded, views, img, videoId}) => (
     <div>
-        <Link to={`/watch_vod/${videoId}`} params={{test:'test'}}><Thumbnail img={img} /></Link>
+        <Link to={{pathname:`/watch_vod/${videoId}`, state:{title,channelName,views,img,lastUploaded}}}><Thumbnail img={img} /></Link>
         <div style={{width:'190px'}}>
             <p style={{fontFamily:'Roboto', paddingTop:'10px', fontSize:'14px', fontWeight:700}}>{title}</p>
             <div style={{marginTop:'10px'}}>

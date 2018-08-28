@@ -16,7 +16,7 @@ const styles = {
     }
 }
 
-export default ({subCount,thumbnail,username, publisedAt, desc}) => (
+export default ({subCount,thumbnail,username, publishedAt, desc}) => (
     <div className="userInfoContainer">
 
         <div className="avatar_subscribe">
@@ -30,7 +30,7 @@ export default ({subCount,thumbnail,username, publisedAt, desc}) => (
 
                 <div>
                     <h1 style={{fontWeigth:400,fontSize:'13px', color:'#000'}}>{username}</h1>
-                    <p style={{fontWeight:300, fontSize:'13px', color:'#707070'}}>{publisedAt}</p>
+                    <p style={{fontWeight:300, fontSize:'13px', color:'#707070'}}>{publishedAt}</p>
                 </div>
             </div>
 
