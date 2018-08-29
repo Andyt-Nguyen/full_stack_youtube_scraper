@@ -24,8 +24,18 @@ export default class MainVideoPage extends Component {
             recVideos: null,
             mainvVideoContent: null,
             iconColorRed: '#b1b1b1',
-            iconColorBlue: '#b1b1b1'
+            iconColorBlue: '#b1b1b1',
+            isHistory: false,
+            isLiked: false
         }
+    }
+
+    checkSavedUserHistory() {
+
+    }
+
+    checkSavedUserLikes() {
+
     }
 
     onMouseEnterRed() {

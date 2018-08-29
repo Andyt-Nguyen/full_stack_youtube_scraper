@@ -14,5 +14,20 @@ module.exports = {
                 next()
             }
         })
+    },
+
+    
+    getVideos(table) {
+        return (req, res, next) => {
+            const { video_id,username } = req.body
+            const QUERY = `SELECT video_id FROM ${table} WHERE video_id = ? and username = ?`
+            connection.query(QUERY,[video_id, username], (err, response) => {
+                if(err) return res.status(500).json({message:err})
+                else {
+                    req.videos = response;
+                    next()
+                }
+            })
+        }
     }
 }
