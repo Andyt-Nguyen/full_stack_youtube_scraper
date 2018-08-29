@@ -18,8 +18,8 @@ class SimpleTabs extends React.Component {
   state = {
     value: 0,
     likedVideos: null,
-    historyVideos: [],
-    favoriteVideos: []
+    historyVideos: null,
+    favoriteVideos: null
   };
 
   handleChange = (event, value) => {
@@ -58,6 +58,20 @@ class SimpleTabs extends React.Component {
     ))
   }
 
+  renderCategVideos(stateName) {
+    return this.state[stateName].map( a => (
+      <VideoAndContent
+          container_style={{marginTop:20, marginRight:3}}
+          videoId={a.video_id}
+          img={a.thumbnail}
+          views={a.views}
+          lastUploaded={a.lastUploaded}
+          title={a.title}
+          channelName={a.channel_name} />
+    ))
+  }
+
+
   renderSkeletonLoader() {
     let placeholder = [1,2,3,4,5,6]
     if(this.state.likedVideos === null) {
@@ -88,75 +102,11 @@ class SimpleTabs extends React.Component {
         {value === 0 && 
           <TabContainer>
             <div className="flex_row_vods">
-              <VideoAndContent
-                container_style={{marginTop:20, marginRight:3}}
-                videoId={'1'}
-                img="https://placehold.it/300"
-                views="123,123"
-                lastUploaded="July 6, 2018"
-                title="Fresh Pies"
-                text_container={{margin:0}} 
-                channel_name_style={{display:'none'}} />
-
-                <VideoAndContent
-                container_style={{marginTop:20, marginRight:3}}
-                videoId={'1'}
-                img="https://placehold.it/300"
-                views="123,123"
-                lastUploaded="July 6, 2018"
-                title="Fresh Pies"
-                text_container={{margin:0}} 
-                channel_name_style={{display:'none'}} />
-
-                <VideoAndContent
-                container_style={{marginTop:20, marginRight:3}}
-                videoId={'1'}
-                img="https://placehold.it/300"
-                views="123,123"
-                lastUploaded="July 6, 2018"
-                title="Fresh Pies"
-                text_container={{margin:0}} 
-                channel_name_style={{display:'none'}} />
-
-                <VideoAndContent
-                container_style={{marginTop:20, marginRight:3}}
-                videoId={'1'}
-                img="https://placehold.it/300"
-                views="123,123"
-                lastUploaded="July 6, 2018"
-                title="Fresh Pies"
-                text_container={{margin:0}} 
-                channel_name_style={{display:'none'}} />
-
-                <VideoAndContent
-                container_style={{marginTop:20, marginRight:3}}
-                videoId={'1'}
-                img="https://placehold.it/300"
-                views="123,123"
-                lastUploaded="July 6, 2018"
-                title="Fresh Pies"
-                text_container={{margin:0}} 
-                channel_name_style={{display:'none'}} />
-
-                <VideoAndContent
-                container_style={{marginTop:20, marginRight:3}}
-                videoId={'1'}
-                img="https://placehold.it/300"
-                views="123,123"
-                lastUploaded="July 6, 2018"
-                title="Fresh Pies"
-                text_container={{margin:0}} 
-                channel_name_style={{display:'none'}} />
-
-                <VideoAndContent
-                container_style={{marginTop:20, marginRight:3}}
-                videoId={'1'}
-                img="https://placehold.it/300"
-                views="123,123"
-                lastUploaded="July 6, 2018"
-                title="Fresh Pies"
-                text_container={{margin:0}} 
-                channel_name_style={{display:'none'}} />
+              {
+                this.state.favoriteVideos == null
+                ? this.renderSkeletonLoader()
+                : this.renderCategVideos("favoriteVideos")
+              }
             </div>
           </TabContainer>}
 
@@ -164,7 +114,11 @@ class SimpleTabs extends React.Component {
         {value === 1 &&
            <TabContainer>
              <div className="flex_row_vods">
-              {this.getUserLikes()}
+              {
+                this.state.likedVideos == null
+                ? this.renderSkeletonLoader()
+                : this.renderCategVideos("likedVideos")
+              }
              </div>
            </TabContainer>}
 
@@ -175,7 +129,7 @@ class SimpleTabs extends React.Component {
               {
                 this.state.historyVideos == null
                 ? this.renderSkeletonLoader()
-                : this.renderHistoryVideos()
+                : this.renderCategVideos("historyVideos")
               }
              </div>
            </TabContainer>}
