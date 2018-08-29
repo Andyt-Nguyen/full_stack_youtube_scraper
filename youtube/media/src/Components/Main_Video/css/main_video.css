@@ -8,22 +8,6 @@ h1, h2, h3, h4, h5, h6, p, span, button {
   padding: 0;
 }
 
-
-/* 
-  navStyle
-*/
-
-.navStyle {
-  margin: 0 auto;
-  width: 95%;
-  height: 50px;
-  background: #ffffff;
-  display: flex;
-  justify-content: space-between;
-  /* margin-bottom: 25px; */
-}
-
-
 /* 
   container
 */

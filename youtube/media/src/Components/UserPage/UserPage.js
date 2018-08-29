@@ -12,7 +12,7 @@ export default class UserPage extends Component {
             <div>
                 <NavBar />
                 <div className="obj-wrapper"><div className="content"/></div>
-                <UserInfoSub />
+                <UserInfoSub username={this.props.match.params.username} />
                 <Tabs />
             </div>
         )
