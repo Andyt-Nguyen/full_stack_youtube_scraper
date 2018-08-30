@@ -81,6 +81,22 @@
   }
 
 
+  /* 
+    Form input bg submit  
+  */
+  .user_bg_form {
+    /* border: 2px solid red; */
+    position: absolute;
+    right:0;
+    bottom: 10px;
+    right: 20px;
+  }
+
+  .bg_input {
+    /* border:2px solid purple */
+  }
+
+
 
   @media screen and (min-width:430px) {
     .user_info_subscriber_wrapper {
