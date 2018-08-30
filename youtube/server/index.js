@@ -1,5 +1,6 @@
 const express = require('express') 
 const multer = require('multer')
+const uuidv4 = require('uuid/v4')
 const path = require('path')
 const bodyParser = require('body-parser') // parses incoming json
 const mysql = require('mysql2') // mysql db
@@ -15,6 +16,49 @@ const queryRoute = require('./api/routes/queryRoute')
 app.use(morgan('dev'))
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
+
+
+// const storage = multer.diskStorage({
+//     destination: (req, file, cb) => {
+//         cb(null, './uploads')
+//     },
+//     filename: (req, file, cb) => {
+//         const newFilename = `${uuidv4()}${path.extname(file.originalname)}`
+//     }
+// })
+
+// const upload = multer({storage})
+
+// app.post('/', upload.single('selectedFile'), (req ,res) => {
+//     res.send()
+// })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // Allow CORS

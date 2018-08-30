@@ -1,4 +1,4 @@
-# Project Title
+# Youtube Scraper FullStack
 
 The goal of this project is to build a full stack application cloning youtube without using their API.
 Though users cannot upload their own videos they can search and view contents of the video as well as 
