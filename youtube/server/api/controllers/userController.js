@@ -107,6 +107,14 @@ module.exports = {
                 else return res.status(200).json({videos})
             })
         }
+    },
+
+    uploadUserBg(req, res, next) {
+            const QUERY = `UPDATE users SET ? where ?`
+            connection.query(QUERY,[{bg_image: req.file.path}, {username:'andythenuge'}], (err, response) => {
+                if(err) console.log(err)
+                else console.log(res)
+            })
     }
 
 }
