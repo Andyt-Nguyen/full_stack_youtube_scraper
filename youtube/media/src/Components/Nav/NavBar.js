@@ -16,19 +16,35 @@ const styles = {
       textTransform: 'uppercase',
       padding: '0 10px',
       fontFamily: 'Roboto',
-      width:'75px'
-
-    },
+    }
   }
 
 
 class NavBar extends Component {
     state = {
-        showSearchInput: true
+        username: '',
+        isSignedIn: false,
+        showMenu: false
     }
 
-    toggleSearchInput() {
-        this.setState({showSearchInput:!this.state.showSearchInput})
+    getUserName() {
+        try {
+            const local = JSON.parse(localStorage.getItem('auth_token'))
+            const username = local.username;
+            console.log(username)
+            this.setState({username, isSignedIn:true})
+        } catch(e) {
+            console.log('user not signed in')
+        }  
+    }
+
+    logoutUser() {
+        window.localStorage.clear()
+        window.location.reload()
+    }
+
+    componentDidMount() {
+        this.getUserName()
     }
 
     render() {
@@ -55,19 +71,34 @@ class NavBar extends Component {
                             <Icon iconName={"fas fa-upload"} />
                             <Icon iconName={"fas fa-share"} />
                             <Icon iconName={"fas fa-bell"} />
-                            <Link to="signin" style={{textDecoration:'none'}}>
-                            <Button size="small" color="primary" className={this.props.classes.button}>
-                                <h4>Sign In</h4>
-                            </Button>
-                                {/* <Icon iconName= {"fas fa-user-circle"} /> */}
-                            </Link>
+                            
+
+                            {
+                                this.state.isSignedIn
+                                ? <Button onClick={() => this.setState({showMenu:!this.state.showMenu})} size="medium" color="primary" className={this.props.classes.button}>
+                                    {this.state.username}
+                                  </Button>
+
+                                :<Link to="/signin" style={{textDecoration:'none'}}> 
+                                    <Button size="small" color="primary" className={this.props.classes.button}>
+                                        <h4>Sign In</h4>
+                                    </Button>
+                                 </Link>
+                                
+                            }                            
                         </div>
 
 
 
                     </nav>
                 </div>
-                <PopModule />
+                {
+                    this.state.showMenu
+                    ? <PopModule 
+                        username={this.state.username} 
+                        logout={this.logoutUser.bind(this)}/>
+                    : ''
+                }
             </div>
         )
     }

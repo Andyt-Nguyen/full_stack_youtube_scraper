@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import ExpiredStorage from 'expired-storage'
 import { withStyles, MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import LoginContainer from './SubComponents/LoginContainer'
 import SignInfo from './SubComponents/SignInfo'
@@ -64,7 +65,8 @@ export default class LoginPage extends Component {
               if(message === 'Password Failed') this.setState({alreadyCreatedPassText:"Invalid Password",alreadyCreatedPass: true, isLoading:false})
               else this.setState({alreadyCreatedPass: false, isLoading:false})
               if(message === 'Auth successful') {
-                  localStorage.setItem('auth_token', JSON.stringify({token:data.token,user_id: data.user_id, username:data.username}))
+                  const expiredStorage = new ExpiredStorage() // stores jwt and a expiration time
+                  expiredStorage.setItem('auth_token', JSON.stringify({token:data.token,user_id: data.user_id, username:data.username}), 3600)
                   this.props.history.push('/')
               }
             })

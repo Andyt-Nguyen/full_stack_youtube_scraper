@@ -1,4 +1,5 @@
 const express = require('express') 
+const multer = require('multer')
 const path = require('path')
 const bodyParser = require('body-parser') // parses incoming json
 const mysql = require('mysql2') // mysql db
@@ -10,7 +11,6 @@ const PORT = process.env.PORT || 5000 // heroku inserts ther env port
 const frontPageRoutes = require('./api/routes/frontPageRoute') // youtube front page routes
 const userRoute = require('./api/routes/userRoute')
 const queryRoute = require('./api/routes/queryRoute')
-
 // Middleware
 app.use(morgan('dev'))
 app.use(bodyParser.urlencoded({extended: true}))

@@ -4,7 +4,7 @@ import placeholderLogo from './styles/placeholder.jpg'
 import Tabs from './SubComponents/Tabs';
 import UserInfoSub from './SubComponents/UserInfoSub'
 import NavBar from '../Nav/NavBar'
-
+import UploadPreview from 'material-ui-upload/UploadPreview';
 
 export default class UserPage extends Component {
     render() {
