@@ -81,6 +81,8 @@ class UserPage extends Component {
                     <UserForm 
                         onSubmitBgPic={this.onSubmitBgPic}/>
                 </div>
+
+                
                 <UserInfoSub username={this.props.match.params.username} />
                 <Tabs />
             </div>

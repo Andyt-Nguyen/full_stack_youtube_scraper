@@ -31,7 +31,7 @@ export default ({username,logout}) => (
                     <Avatar>
                         <PowerSettingsNewOutlined />
                     </Avatar>
-                    <span style={{cursor:'pointer'}} onClick={logout}>
+                    <span style={{cursor:'pointer', marginLeft:15}} onClick={logout}>
                         <ListItemText primary="Sign Out" />
                     </span>
                 </ListItem>

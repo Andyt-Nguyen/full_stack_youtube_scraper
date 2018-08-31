@@ -5,9 +5,6 @@ const validate = require('../middleware/check_auth')
 const upload = require('../middleware/storingImages')
 
 
-
-
-     
 // Registering & Logging Users
 router.post('/register', getUsers, registerUser) // register users
 router.post('/signin', getUsers, signInUser) // sign up users

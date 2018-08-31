@@ -95,12 +95,45 @@
   .bg_input {
     /* border:2px solid purple */
   }
+  
+  .inputWrapper {
+    visibility: hidden;
+    height: 62px;
+    width: 65px;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    /*Using a background color, but you can use a background image to represent a button*/
+    background-color: none;
+}
+
+.inputWrapper:hover {
+  transform: rotate(40%);
+}
+.fileInput {
+    cursor: pointer;
+    height: 100%;
+    position:absolute;
+    top: 0;
+    right: 0;
+    z-index: 99;
+    /*This makes the button huge. If you want a bigger button, increase the font size*/
+    font-size:50px;
+    /*Opacity settings for all browsers*/
+    opacity: 0;
+    -moz-opacity: 0;
+    filter:progid:DXImageTransform.Microsoft.Alpha(opacity=0)
+}
 
 
 
   @media screen and (min-width:430px) {
     .user_info_subscriber_wrapper {
       width: 428px
+    }
+
+    .inputWrapper {
+      visibility: visible;
     }
   }
 
@@ -112,6 +145,10 @@
     .user_info_subscriber_wrapper {
       width: 78%;
       max-width: 1280px
+    }
+
+    .inputWrapper {
+      visibility: visible;
     }
     
   }

@@ -22,10 +22,16 @@ const UserForm = (props) => (
         onChange={this.onChange}
         /> */}
 
-        <div>
+
+        <div class="inputWrapper">
+            <input class="fileInput" type="file" name="selectedFile" onChange={props.onChange}/>
             <Button type="submit" className={props.classes.button}>
                 <AddIcon />
             </Button>
+        </div>
+
+        <div>
+            
         </div>
     </form>
 )
