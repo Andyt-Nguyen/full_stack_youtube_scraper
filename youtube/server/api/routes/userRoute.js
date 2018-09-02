@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const { registerUser, signInUser, saveUserVideo, getUserVideoCateg, uploadUserBg } = require('../controllers/userController')
+const { registerUser, signInUser, saveUserVideo, getUserVideoCateg, uploadImage } = require('../controllers/userController')
 const { getUsers, getUsersInfo, getVideos } = require('../middleware/getUsers')
 const validate = require('../middleware/check_auth')
 const upload = require('../middleware/storingImages')
@@ -10,13 +10,8 @@ router.post('/register', getUsers, registerUser) // register users
 router.post('/signin', getUsers, signInUser) // sign up users
 
 // Updating Picutes
-router.put('/upload_bg_img', validate ,upload.single('bg_images'), uploadUserBg)
-
-
-router.put('/upload_avatar_img', upload.single('avatar_images'), (req ,res, next) => {
-    const QUERY = `UPDATE users SET avatar_image = ?`
-    connection.query(QUERY,[req.file.path], (err, response) => console.log(response))
-})
+router.put('/upload_bg_img', validate, upload.single('bg_images'), uploadImage('bg_image'))
+router.put('/upload_avatar_img', validate, upload.single('bg_images'), uploadImage('avatar_image'))
 
 // Saving Videos
 router.post('/saveHistory', validate, getVideos('user_history'), saveUserVideo('user_history')) // add to user history

@@ -213,7 +213,22 @@
   background: white;
   height: 300px;
   width: 90%;
-  max-width: 500px;;
+  max-width: 500px;
+  border: 2px dotted;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  margin-top:40px;
+}
+
+#file_drop_container_avatar {
+  position: relative;
+  background: white;
+  height: 300px;
+  width: 300px;
+  border-radius: 50%;
+  max-width: 500px;
   border: 2px dotted;
   display: flex;
   justify-content: center;

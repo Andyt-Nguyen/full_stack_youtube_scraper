@@ -30,7 +30,7 @@ const UserForm = (props) => (
         <hr style={{marginTop:'30px'}}/>
                         
 
-        <div id="file_drop_container">
+        <div id={props.showBgModal ? "file_drop_container" : "file_drop_container_avatar"}>
             <button
                 onClick={props.removeCurrentPic} 
                 style={{
@@ -45,13 +45,22 @@ const UserForm = (props) => (
             {
 
             props.currentPic !== ''
-                ?<div 
-                    style={{
-                    width: '100%',
-                    height: '100%',
-                    backgroundPosition: 'center',
-                    backgroundSize: 'cover',
-                    backgroundImage:`url('${props.currentPic}')`}}/>
+                ? props.showBgModal
+                    ?<div 
+                        style={{
+                        width: '100%',
+                        height: '100%',
+                        backgroundPosition: 'center',
+                        backgroundSize: 'cover',
+                        backgroundImage:`url('${props.currentPic}')`}}/>
+                    :<div 
+                        style={{
+                        borderRadius: '50%',
+                        width: '300px',
+                        height: '300px',
+                        backgroundPosition: 'center',
+                        backgroundSize: 'cover',
+                        backgroundImage:`url('${props.currentPic}')`}}/>
 
                 : <FileDrop onDrop={props.handleDrop}>
                     Drop photo here!
@@ -62,7 +71,7 @@ const UserForm = (props) => (
 
         <div style={{marginTop:40}}>
             <hr/>
-            <Button onClick={() => props.submitBgPicture()} type="submit" className={props.classes.button}>
+            <Button onClick={props.submitPicture} type="submit" className={props.classes.button}>
                 Submit
             </Button>
 

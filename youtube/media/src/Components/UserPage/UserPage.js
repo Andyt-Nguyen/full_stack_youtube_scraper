@@ -37,15 +37,18 @@ class UserPage extends Component {
         previewImage: '',
         currentPic: '',
         openBgModal: false,
-        bgImage: ''
+        openAvatarModal: false,
+        bgImage: '',
+        avatarImage: ''
 
     }
 
     getUsersInfo() {
         fetch(`http://localhost:5000/api/users/getUsersInfo/${this.props.match.params.username}`)
             .then( res => res.json() )
-            .then( data => this.setState({bgImage:data[0].bg_image}))
+            .then( data => this.setState({bgImage:data[0].bg_image, avatarImage:data[0].avatar_image}))
     }
+
 
     handleDrop = (files, event) => {
         this.setState({selectedFile:files[0]}, () => {
@@ -60,6 +63,7 @@ class UserPage extends Component {
         })
     }
 
+
     onChange = (e) => {
         switch (e.target.name) {
           case 'selectedFile':
@@ -67,6 +71,20 @@ class UserPage extends Component {
             break;
           default:
             this.setState({ [e.target.name]: e.target.value });
+        }
+    }
+
+
+    submitPicture(url) {
+        try {
+            const jwt = JSON.parse(localStorage.getItem('auth_token')).token
+            const { selectedFile } = this.state;
+            let formData = new FormData();
+            formData.append('bg_images', selectedFile);
+            axios.defaults.headers.common['Authorization'] = "Bearer " + jwt
+            axios.put(`http://localhost:5000/api/users/${url}`, formData)
+        } catch(err) {
+            console.log(err)
         }
     }
 
@@ -92,9 +110,9 @@ class UserPage extends Component {
         }
     }
 
+
     renderUserModule() {
         try {
-            const jwt = JSON.parse(localStorage.getItem('auth_token')).token
             const username = JSON.parse(localStorage.getItem('auth_token')).username
             if(username == this.props.match.params.username) {
                 return (
@@ -102,8 +120,9 @@ class UserPage extends Component {
                         {
                         this.state.openBgModal
                         ? <UserForm
+                            showBgModal={true}
                             handleDrop={this.handleDrop}
-                            submitBgPicture={this.submitBgPicture.bind(this)}
+                            submitPicture={() => this.submitPicture('upload_bg_img')}
                             currentPic={this.state.currentPic}
                             openBgModal={() => this.setState({openBgModal:false})}
                             removeCurrentPic={() => this.setState({currentPic:''})} />
@@ -119,22 +138,40 @@ class UserPage extends Component {
         }
     }
 
-    submitBgPicture = () => {
+
+    renderAvatarModule() {
         try {
-            const jwt = JSON.parse(localStorage.getItem('auth_token')).token
-            const { selectedFile } = this.state;
-            let formData = new FormData();
-            formData.append('bg_images', selectedFile);
-            axios.defaults.headers.common['Authorization'] = "Bearer " + jwt
-            axios.put('http://localhost:5000/api/users/upload_bg_img', formData)
-        } catch(err) {
-            console.log(err)
+            const username = JSON.parse(localStorage.getItem('auth_token')).username
+            if(username == this.props.match.params.username) {
+                return (
+                    <React.Fragment>
+                        {
+                        this.state.openAvatarModal
+                        ? <UserForm
+                            showBgModal={false}
+                            handleDrop={this.handleDrop}
+                            submitPicture={() => this.submitPicture('upload_avatar_img')}
+                            currentPic={this.state.currentPic}
+                            openBgModal={() => this.setState({openAvatarModal:false})}
+                            removeCurrentPic={() => this.setState({currentPic:''})} />
+    
+                         : ''
+                    }
+                    </React.Fragment>
+                    
+                )
+            } else return ''
+        } catch(e) {
+            return ''
         }
+       
     }
+
 
     componentDidMount() {
         this.getUsersInfo();
     }
+
 
     render() {
         return(
@@ -144,7 +181,11 @@ class UserPage extends Component {
                     {this.renderUploadBgPicture()}
                 </div>
                 {this.renderUserModule()}
-                <UserInfoSub username={this.props.match.params.username} />
+                {this.renderAvatarModule()}
+                <UserInfoSub 
+                    openAvatarModal={() => this.setState({openAvatarModal:true})}
+                    username={this.props.match.params.username} 
+                    avatarImage={this.state.avatarImage}/>
                 <Tabs />
             </div>
         )
