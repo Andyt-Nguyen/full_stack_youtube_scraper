@@ -77,7 +77,6 @@ module.exports = {
     // This function saves the users video and the parameter makes sure what to save to such as (history, likes, history)
     saveUserVideo(table) { // This parameter takes in the table it wants to save to.
         return (req, res, next) => {
-            // console.log('Vods',req.videos)
             if(req.videos.length >= 1) return res.status(409).json({message:'already saved'})
             const { username, user_id, video_id, channel_name, thumbnail, title, published_at, views } = req.body
             const insertQuery = `INSERT INTO ${table} 
@@ -110,7 +109,6 @@ module.exports = {
     },
 
     uploadUserBg(req, res, next) {
-        console.log('hit')
         const QUERY = `UPDATE users SET ? where ?`
         connection.query(QUERY,[{bg_image: "http://localhost:5000/uploads/"+req.file.filename}, {username:'andythenuge'}], (err, response) => {
             if(err) console.log(err)
