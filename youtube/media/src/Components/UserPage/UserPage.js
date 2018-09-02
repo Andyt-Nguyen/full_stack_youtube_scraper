@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Button from '@material-ui/core/Button'
 import AddIcon from '@material-ui/icons/Add';
-import { withStyles } from '@material-ui/core/styles'
+import { withStyles } from '@material-ui/core/'
 import axios from 'axios'
 import './styles/index.css'
 import placeholderLogo from './styles/placeholder.jpg'
@@ -11,21 +11,47 @@ import NavBar from '../Nav/NavBar'
 import UploadPreview from 'material-ui-upload/UploadPreview';
 import UserForm from './SubComponents/UserForm'
 
+// Styles to override predefined css styles
 const styles = {
     button: {
         background: 'crimson',
         color: 'white',
         borderRadius: '50%',
         width: '60px',
-        height: '60px'
+        height: '60px',
+    },
+
+    cancelBtn: {
+        background: '#ddd',
+        color: 'darkgrey',
+        marginLeft:20,
+        borderRadius: 0
     }
 }
 
 class UserPage extends Component {
     state = {
-        selectedFile: ''
+        selectedFile: '',
+        isPreview: false,
+        previewImage: '',
+        currentPic: '',
+        openBgModal: false
 
     }
+
+    handleDrop = (files, event) => {
+        this.setState({selectedFile:files[0]}, () => {
+            const picFile = this.state.selectedFile
+            if(picFile !== '') {
+                let reader = new FileReader(); //Using File Reader API to convert file string
+                let url = reader.readAsDataURL(picFile); //Converts file string to DataURL
+                reader.onloadend = (e) => { //onloadend checks to see if the image is done downloading
+                    this.setState({currentPic:reader.result}) //.result retuns the url string to the image
+                }
+            }
+        })
+    }
+
     onChange = (e) => {
         switch (e.target.name) {
           case 'selectedFile':
@@ -34,55 +60,76 @@ class UserPage extends Component {
           default:
             this.setState({ [e.target.name]: e.target.value });
         }
-      }
+    }
 
-      onSubmit = (e) => {
-        e.preventDefault();
+    renderUploadBgPicture() {
+        try {
+            const jwt = JSON.parse(localStorage.getItem('auth_token')).token
+            const username = JSON.parse(localStorage.getItem('auth_token')).username
+           if(username == this.props.match.params.username) {
+               return (
+                <React.Fragment>
+                <div className="position_btn">
+                    <Button onClick={() => this.setState({openBgModal:true})} className={this.props.classes.button}>
+                        <AddIcon />
+                    </Button>
+                </div>
+                </React.Fragment>
+               )
+           } else {
+               return ''
+           }
+        } catch(e) {
+            return ''
+        }
+    }
+
+    renderUserModule() {
+        try {
+            const jwt = JSON.parse(localStorage.getItem('auth_token')).token
+            const username = JSON.parse(localStorage.getItem('auth_token')).username
+            if(username == this.props.match.params.username) {
+                return (
+                    <React.Fragment>
+                        {
+                        this.state.openBgModal
+                        ? <UserForm
+                            handleDrop={this.handleDrop}
+                            submitBgPicture={this.submitBgPicture.bind(this)}
+                            currentPic={this.state.currentPic}
+                            openBgModal={() => this.setState({openBgModal:false})}
+                            removeCurrentPic={() => this.setState({currentPic:''})} />
+    
+                         : ''
+                    }
+                    </React.Fragment>
+                    
+                )
+            } else return ''
+        } catch(e) {
+            return ''
+        }
+    }
+
+    submitBgPicture = () => {
         const { selectedFile } = this.state;
         let formData = new FormData();
+
         formData.append('bg_images', selectedFile);
         axios.put('http://localhost:5000/api/users/upload_bg_img', formData)
-          .then((result) => {
-            // access results...
-          })
-      }
-
-
-      onSubmitBgPic = (e) => {
-        e.preventDefault();
-        const { selectedFile } = this.state;
-        let formData = new FormData();
-        formData.append('bg_images', selectedFile);
-        axios.put('http://localhost:5000/api/users/upload_bg_img', formData)
-          .then((result) => {
-            // access results...
-          })
-      }
+            .then((result) => {
+            console.log('Submit')
+            })
+    }
 
     render() {
         return(
             <div>
-            {/* <form className="user_bg_form" onSubmit={this.onSubmit}>
-                <input
-                className="bg_input"
-                type="file"
-                name="selectedFile"
-                onChange={this.onChange}
-                />
-
-                <div style={{border:'2px solid red'}}>
-                    <Button type="submit" className={this.props.classes.button}>
-                        <AddIcon />
-                    </Button>
-                </div>
-            </form> */}
                 <NavBar />
                 <div className="obj-wrapper"><div className="content"/>
-                    <UserForm 
-                        onSubmitBgPic={this.onSubmitBgPic}/>
+                    {this.renderUploadBgPicture()}
                 </div>
-
-                
+                {this.renderUserModule()}
                 <UserInfoSub username={this.props.match.params.username} />
                 <Tabs />
             </div>

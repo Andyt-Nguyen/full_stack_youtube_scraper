@@ -1,6 +1,6 @@
 const router = require('express').Router()
 const { registerUser, signInUser, saveUserVideo, getUserVideoCateg, uploadUserBg } = require('../controllers/userController')
-const { getUsers, getVideos } = require('../middleware/getUsers')
+const { getUsers, getUsersInfo, getVideos } = require('../middleware/getUsers')
 const validate = require('../middleware/check_auth')
 const upload = require('../middleware/storingImages')
 
@@ -23,9 +23,9 @@ router.post('/saveFavorites', validate, getVideos('user_favorites'), saveUserVid
 router.post('/saveLikes', validate, getVideos('user_likes'), saveUserVideo('user_likes')) // add to user likes
 
 // Getting Videos
-router.get('/getUserLikes/:username', getUserVideoCateg('user_likes')) // get the user likes
-router.get('/getUserHistory/:username', getUserVideoCateg('user_history')) // get the users history
-router.get('/getUserFavorites/:username', getUserVideoCateg('user_favorites')) // get user favorites
+router.get('/getUserLikes/:username', getUsersInfo, getUserVideoCateg('user_likes')) // get the user likes
+router.get('/getUserHistory/:username', getUsersInfo, getUserVideoCateg('user_history')) // get the users history
+router.get('/getUserFavorites/:username', getUsersInfo, getUserVideoCateg('user_favorites')) // get user favorites
 
 
 module.exports = router

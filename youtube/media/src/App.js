@@ -6,9 +6,8 @@ export default class App extends Component {
   componentDidMount() {
     const expiredStorage = new ExpiredStorage()
     const timeLeft = expiredStorage.getTimeLeft("auth_token")
-    console.log(timeLeft)
     if(timeLeft <= 0) {
-      expiredStorage.clearExpired()
+      localStorage.clear()
     }
   }
   render() {

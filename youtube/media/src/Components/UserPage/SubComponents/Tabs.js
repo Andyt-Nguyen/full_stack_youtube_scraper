@@ -35,8 +35,8 @@ class SimpleTabs extends React.Component {
 
   getUsersVideoCategs(url, state) {
     try {
-      const jwt = JSON.parse(localStorage.getItem('auth_token')).token
-      const user_id = JSON.parse(localStorage.getItem('auth_token')).user_id
+      // const jwt = JSON.parse(localStorage.getItem('auth_token')).token
+      // const user_id = JSON.parse(localStorage.getItem('auth_token')).user_id
       fetch(`http://localhost:5000/api/users/${url}/${this.props.match.params.username}`)
         .then( res => res.json())
         .then( data => this.setState({[state]:data.videos}))
