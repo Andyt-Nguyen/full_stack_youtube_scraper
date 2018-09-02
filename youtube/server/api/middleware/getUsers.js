@@ -4,13 +4,12 @@ module.exports = {
     getUsers(req, res, next) {
         const { username } = req.body
         // Checks if there are any users that have that same username and pushes it into an array
-        const QUERY = `SELECT * FROM users WHERE username = ?`
+        const QUERY = `SELECT username, bg_image, avatar_image FROM users WHERE username = ?`
         connection.query(QUERY,[username], (err, response) => {
             if(err) {
                 res.status(500).json({message:err})
 
             } else {
-                console.log('LOG ME!',response)
                 req.users = response
                 next()
             }
@@ -26,7 +25,6 @@ module.exports = {
                 res.status(500).json({message:err})
 
             } else {
-                console.log('LOG ME!',response)
                 req.users = response
                 next()
             }

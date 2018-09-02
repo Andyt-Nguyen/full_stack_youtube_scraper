@@ -10,7 +10,8 @@ router.post('/register', getUsers, registerUser) // register users
 router.post('/signin', getUsers, signInUser) // sign up users
 
 // Updating Picutes
-router.put('/upload_bg_img', upload.single('bg_images'), uploadUserBg)
+router.put('/upload_bg_img', validate ,upload.single('bg_images'), uploadUserBg)
+
 
 router.put('/upload_avatar_img', upload.single('avatar_images'), (req ,res, next) => {
     const QUERY = `UPDATE users SET avatar_image = ?`
@@ -27,5 +28,7 @@ router.get('/getUserLikes/:username', getUsersInfo, getUserVideoCateg('user_like
 router.get('/getUserHistory/:username', getUsersInfo, getUserVideoCateg('user_history')) // get the users history
 router.get('/getUserFavorites/:username', getUsersInfo, getUserVideoCateg('user_favorites')) // get user favorites
 
+// Getting users info
+router.get('/getUsersInfo/:username', getUsersInfo, (req, res) => res.json(req.users));
 
 module.exports = router

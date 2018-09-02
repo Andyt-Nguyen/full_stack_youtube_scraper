@@ -10,6 +10,7 @@ import UserInfoSub from './SubComponents/UserInfoSub'
 import NavBar from '../Nav/NavBar'
 import UploadPreview from 'material-ui-upload/UploadPreview';
 import UserForm from './SubComponents/UserForm'
+import placeholderImage from './styles/placeholder.jpg'
 
 // Styles to override predefined css styles
 const styles = {
@@ -35,8 +36,15 @@ class UserPage extends Component {
         isPreview: false,
         previewImage: '',
         currentPic: '',
-        openBgModal: false
+        openBgModal: false,
+        bgImage: ''
 
+    }
+
+    getUsersInfo() {
+        fetch(`http://localhost:5000/api/users/getUsersInfo/${this.props.match.params.username}`)
+            .then( res => res.json() )
+            .then( data => this.setState({bgImage:data[0].bg_image}))
     }
 
     handleDrop = (files, event) => {
@@ -112,21 +120,27 @@ class UserPage extends Component {
     }
 
     submitBgPicture = () => {
-        const { selectedFile } = this.state;
-        let formData = new FormData();
+        try {
+            const jwt = JSON.parse(localStorage.getItem('auth_token')).token
+            const { selectedFile } = this.state;
+            let formData = new FormData();
+            formData.append('bg_images', selectedFile);
+            axios.defaults.headers.common['Authorization'] = "Bearer " + jwt
+            axios.put('http://localhost:5000/api/users/upload_bg_img', formData)
+        } catch(err) {
+            console.log(err)
+        }
+    }
 
-        formData.append('bg_images', selectedFile);
-        axios.put('http://localhost:5000/api/users/upload_bg_img', formData)
-            .then((result) => {
-            console.log('Submit')
-            })
+    componentDidMount() {
+        this.getUsersInfo();
     }
 
     render() {
         return(
             <div>
                 <NavBar />
-                <div className="obj-wrapper"><div className="content"/>
+                <div className="obj-wrapper"><div className="content" style={{backgroundImage:`url('${this.state.bgImage}')`}}/>
                     {this.renderUploadBgPicture()}
                 </div>
                 {this.renderUserModule()}
