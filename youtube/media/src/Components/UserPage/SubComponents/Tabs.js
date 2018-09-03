@@ -6,14 +6,6 @@ import Typography from '@material-ui/core/Typography';
 import { VideoAndContent, VideoSkeletonLoader } from '../../Common'
 import { withRouter } from 'react-router-dom'
 
-function TabContainer(props) {
-  return (
-    <Typography component="div" style={{ padding: 8 * 3 }}>
-      {props.children}
-    </Typography>
-  );
-}
-
 class SimpleTabs extends React.Component {
   state = {
     value: 0,
@@ -87,7 +79,6 @@ class SimpleTabs extends React.Component {
     const { value } = this.state;
     return (
       <div>
-        
          <div style={{background:'#fafafa'}}>
             <Tabs tabItemContainerStyle={{background:'black'}} value={value} onChange={this.handleChange} centered>
               <Tab label="Favorites" />
@@ -98,7 +89,7 @@ class SimpleTabs extends React.Component {
 
 
         {value === 0 && 
-          <TabContainer>
+          <div className="flex_row_container">
             <div className="flex_row_vods">
               {
                 this.state.favoriteVideos == null
@@ -106,11 +97,11 @@ class SimpleTabs extends React.Component {
                 : this.renderCategVideos("favoriteVideos")
               }
             </div>
-          </TabContainer>}
+          </div>}
 
 
         {value === 1 &&
-           <TabContainer>
+           <div className="flex_row_container">
              <div className="flex_row_vods">
               {
                 this.state.likedVideos == null
@@ -118,11 +109,11 @@ class SimpleTabs extends React.Component {
                 : this.renderCategVideos("likedVideos")
               }
              </div>
-           </TabContainer>}
+           </div>}
 
 
         {value === 2 &&
-           <TabContainer>
+           <div className="flex_row_container">
              <div className="flex_row_vods">
               {
                 this.state.historyVideos == null
@@ -130,7 +121,7 @@ class SimpleTabs extends React.Component {
                 : this.renderCategVideos("historyVideos")
               }
              </div>
-           </TabContainer>}
+           </div>}
       </div>
     );
   }

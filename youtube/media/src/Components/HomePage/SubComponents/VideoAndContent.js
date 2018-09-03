@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import Thumbnail from './Thumbnail';
 
 export default ({title, channelName, lastUploaded, views, img, videoId}) => (
-    <div>
+    <div className="home_page_video_and_content">
         <Link 
             to={{
                 pathname:`/watch_vod/${videoId}`, 

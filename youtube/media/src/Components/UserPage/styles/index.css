@@ -70,13 +70,25 @@
     max-width: 1280px
   }
 
+  .flex_row_container {
+    padding: 24px;
+  }
+
    /* User Videos that is being displayed*/
    .flex_row_vods {
-    margin: 0 auto;
     display: flex;
     justify-content: flex-start;
     flex-wrap: wrap;
-    width:450px;
+    width:100%;
+  }
+
+  .flex_row_vods div .thumbnailer {
+    width: 155px;
+    height: 90px;
+  }
+
+  .flex_row_vods .common_vid_detail {
+    width: 150px;
   }
 
 
@@ -89,10 +101,6 @@
     right:0;
     bottom: 10px;
     right: 20px;
-  }
-
-  .bg_input {
-    /* border:2px solid purple */
   }
   
   .inputWrapper {
@@ -109,6 +117,7 @@
 .inputWrapper:hover {
   transform: rotate(40%);
 }
+
 .fileInput {
     cursor: pointer;
     height: 100%;
@@ -206,8 +215,8 @@
   margin: 0 auto;
   border: 1px solid;
   border-radius: 5px;
-  
 }
+
 #file_drop_container {
   position: relative;
   background: white;
@@ -249,9 +258,24 @@
 
 
 
+
+
 @media screen and (min-width:430px) {
   .user_info_subscriber_wrapper {
-    width: 428px
+    width: 428px;
+  }
+
+  .flex_row_vods {
+    width: 450px;
+  }
+
+  .flex_row_vods div .thumbnailer {
+    width: 210px; 
+    height: 118px;
+  }
+
+  .flex_row_vods .common_vid_detail {
+    width: 190px;
   }
 
   .inputWrapper {
@@ -261,7 +285,8 @@
 
 @media screen and (min-width: 680px) {
   .flex_row_vods {
-    width: 648px;    
+    width: 648px;
+        
   }
 
   .user_info_subscriber_wrapper {

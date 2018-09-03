@@ -33,13 +33,20 @@
     margin-top:13px;
 }
 
+.home_page_video_and_content .thumbnail {
+    height: 88px;
+    width:180px;
+
+    /* 92px difference from width to height */
+}
+
 
 /* 
     This is styling the contents inside the container
 */
 
 .videos_container {
-    width: 425px;
+    width: 380px;
     margin: 0 auto;
     padding-bottom: 50px;
 }
@@ -59,6 +66,12 @@
 
 
 @media screen and (min-width:660px) {
+
+    .home_page_video_and_content .thumbnail {
+        width: 210px;
+        height: 118px;
+    }
+    
 
     .videos_container {
         width: 640px;
