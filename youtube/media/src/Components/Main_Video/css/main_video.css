@@ -46,8 +46,7 @@ h1, h2, h3, h4, h5, h6, p, span, button {
 */
 
 .userInteraction {
-  background:'red';
-  width: 420px;
+  width: 100%;
   display: flex;
   justify-content: space-between;
 }
@@ -101,8 +100,22 @@ h1, h2, h3, h4, h5, h6, p, span, button {
   border-top: 1px solid #eeeeee; 
   border-bottom: 1px solid #eeeeee; 
   padding: 15px 0;
-  width: 471px;
+  width: 100%;
 }
+
+.userInfoContainer div button{
+  font-family:'Roboto';
+  background:#ff0000;
+  font-weight:300;
+  color:white;
+  padding:5px 3px;
+  border:none;
+  border-radius:2px;
+  font-size:13px;
+  text-transform:uppercase
+}
+
+
 
 .avatar_subscribe {
   display: flex;
@@ -142,4 +155,9 @@ h1, h2, h3, h4, h5, h6, p, span, button {
   font-size:13px; 
   font-weight:300;
   color:#a0a0a0;
+}
+
+.main_video_desc {
+  margin-top:20px;
+  /* margin-left:70 */
 }

@@ -43,7 +43,6 @@ module.exports = {
         // this compares the users password and the found users(username) password.
         bcrypt.compare(password, req.users[0].password, (err, result) => {
             // Checks to see if there is an err in the parameters
-            console.log(err)
             if(err) return res.status(404).json({message:'Password Failed'})
             //  if the password passes this code block will create a JWT and return it to the client
             if(result) {
@@ -111,11 +110,11 @@ module.exports = {
 
     uploadImage(field) {
         return (req, res, next) => {
-            
             const QUERY = `UPDATE users SET ? where ?`
+            const fileName = req.file.filename.replace(' ','')
             connection.query(QUERY,[
-                {[field]: "http://localhost:5000/uploads/"+req.file.filename}, 
-                {username:'andythenuge'}], (err, response) => {
+                {[field]: "http://localhost:5000/uploads/" + fileName}, 
+                {user_id:req.params.userId}], (err, response) => {
                     if(err) console.log(err)
                     else console.log(res)
             })

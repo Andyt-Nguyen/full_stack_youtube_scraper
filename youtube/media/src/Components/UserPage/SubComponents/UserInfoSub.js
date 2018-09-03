@@ -4,7 +4,7 @@ import { Avatar } from '../../Common'
 export default ({username, openAvatarModal, avatarImage}) => (
     <div style={{background:'#fafafa'}}>
         <div className="user_info_subscriber_wrapper">
-            <div onClick={openAvatarModal} className="_user_info_container">
+            <div style={{cursor:'pointer'}} onClick={openAvatarModal} className="_user_info_container">
                 <Avatar className="hide_avatar" styles={{width:80, height:80,marginRight:24}} image={avatarImage != "" ? avatarImage : "https://placehold.it/100"}/>
                 <div>
                     <p style={{textTransform:'capitalize'}}>{username}</p>

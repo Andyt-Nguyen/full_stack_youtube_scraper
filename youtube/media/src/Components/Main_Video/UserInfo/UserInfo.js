@@ -2,19 +2,6 @@ import React from 'react'
 import { Avatar } from '../../Common'
 import Descript from './SubComponents/Descript'
 
-const styles = {
-    subscribeBtn: {
-        fontFamily:'Roboto',
-        background:'#ff0000',
-        fontWeight:300,
-        color:'white',
-        padding:'10px 20px',
-        border:'none',
-        borderRadius:'2px',
-        fontSize:'15px',
-        textTransform:'uppercase'
-    }
-}
 
 export default ({subCount,thumbnail,username, publishedAt, desc}) => (
     <div className="userInfoContainer">
@@ -32,7 +19,7 @@ export default ({subCount,thumbnail,username, publishedAt, desc}) => (
             </div>
 
             <div>
-                <button style={styles.subscribeBtn}>Subscribe <span style={{color:'#ffd9d9', fontSize:15}}>{subCount}</span></button>
+                <button>Subscribe <span style={{color:'#ffd9d9', fontSize:15}}>{subCount}</span></button>
             </div>
         </div>
 

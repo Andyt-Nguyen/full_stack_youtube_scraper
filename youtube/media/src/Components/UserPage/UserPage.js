@@ -46,7 +46,11 @@ class UserPage extends Component {
     getUsersInfo() {
         fetch(`http://localhost:5000/api/users/getUsersInfo/${this.props.match.params.username}`)
             .then( res => res.json() )
-            .then( data => this.setState({bgImage:data[0].bg_image, avatarImage:data[0].avatar_image}))
+            .then( data => {
+                console.log('IMGAE',data[0].avatar_image)
+                this.setState({bgImage:data[0].bg_image, avatarImage: data[0].avatar_image})
+            }
+        )
     }
 
 
@@ -77,12 +81,13 @@ class UserPage extends Component {
 
     submitPicture(url) {
         try {
-            const jwt = JSON.parse(localStorage.getItem('auth_token')).token
+            const {token, user_id} = JSON.parse(localStorage.getItem('auth_token'))
             const { selectedFile } = this.state;
             let formData = new FormData();
             formData.append('bg_images', selectedFile);
-            axios.defaults.headers.common['Authorization'] = "Bearer " + jwt
-            axios.put(`http://localhost:5000/api/users/${url}`, formData)
+            axios.defaults.headers.common['Authorization'] = "Bearer " + token
+            axios.put(`http://localhost:5000/api/users/${url}/${user_id}`, formData)
+
         } catch(err) {
             console.log(err)
         }
@@ -174,6 +179,7 @@ class UserPage extends Component {
 
 
     render() {
+        console.log(this.state.avatarImage)
         return(
             <div>
                 <NavBar />
