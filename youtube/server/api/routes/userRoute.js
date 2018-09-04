@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const { registerUser, signInUser, saveUserVideo, getUserVideoCateg, uploadImage } = require('../controllers/userController')
+const { registerUser, signInUser, saveUserVideo, getUserVideoCateg, uploadImage,deleteVideo } = require('../controllers/userController')
 const { getUsers, getUsersInfo, getVideos } = require('../middleware/getUsers')
 const validate = require('../middleware/check_auth')
 const upload = require('../middleware/storingImages')
@@ -17,6 +17,12 @@ router.put('/upload_avatar_img/:userId', validate, upload.single('bg_images'), u
 router.post('/saveHistory', validate, getVideos('user_history'), saveUserVideo('user_history')) // add to user history
 router.post('/saveFavorites', validate, getVideos('user_favorites'), saveUserVideo('user_favorites')) // add to user favorites
 router.post('/saveLikes', validate, getVideos('user_likes'), saveUserVideo('user_likes')) // add to user likes
+
+
+// Deleting Videos
+router.delete('/removeLikes/:videoId', validate, deleteVideo('user_likes'))
+router.delete('/removeFavs/:videoId', validate, deleteVideo('user_favorites'))
+
 
 // Getting Videos
 router.get('/getUserLikes/:username', getUsersInfo, getUserVideoCateg('user_likes')) // get the user likes

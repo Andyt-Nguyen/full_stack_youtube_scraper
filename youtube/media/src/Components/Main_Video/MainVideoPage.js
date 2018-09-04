@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import axios from 'axios'
 import NavBar from '../Nav/NavBar'
 import MainVideo from './SubComponents/MainVideo'
-import VideoTitle from './SubComponents/VideoTitle';
-import UserInteraction from './SubComponents/UserInteraction';
-import UserInfo from './UserInfo/UserInfo';
-import RecommendedVideos from './SubComponents/RecommendedVid/RecommendedVideos';
-import Video from './SubComponents/RecommendedVid/SubComponents/Video';
+import VideoTitle from './SubComponents/VideoTitle'
+import UserInteraction from './SubComponents/UserInteraction'
+import UserInfo from './UserInfo/UserInfo'
+import RecommendedVideos from './SubComponents/RecommendedVid/RecommendedVideos'
+import Video from './SubComponents/RecommendedVid/SubComponents/Video'
 import { VideoSkeletonLoader } from '../Common'
 import TitleLoader from './SubComponents/Loader/TitleLoader'
 import UserInteractionLoader from './SubComponents/Loader/UserInteractionLoader'
@@ -25,18 +26,11 @@ export default class MainVideoPage extends Component {
             mainvVideoContent: null,
             iconColorRed: '#b1b1b1',
             iconColorBlue: '#b1b1b1',
-            isHistory: false,
+            isFavorited: false,
             isLiked: false
         }
     }
 
-    checkSavedUserHistory() {
-
-    }
-
-    checkSavedUserLikes() {
-
-    }
 
     onMouseEnterRed() {
         this.setState({iconColorRed:'red'})
@@ -54,7 +48,37 @@ export default class MainVideoPage extends Component {
         this.setState({iconColorBlue:'#b1b1b1'})
     }
 
-    saveToUserProfile(url) {
+    checkUserCategs(url, state) {
+        try{
+            const { username } = JSON.parse(localStorage.getItem('auth_token'))
+            fetch(`http://localhost:5000/api/users/${url}/${username}`)
+                .then(res => res.json())
+                .then(data => {
+                    const findLikedVideo = data.videos.filter( a => a.video_id == this.props.match.params.videoId);
+                    console.log(findLikedVideo)
+                    if(findLikedVideo.length < 1) this.setState({[state]:false})
+                    else if(findLikedVideo.length >= 1) this.setState({[state]:true})
+                });
+        } catch(e) {
+            return ''
+        }   
+    }
+
+    removeVideo(url, state) {
+        try {
+            const { token } = JSON.parse(localStorage.getItem('auth_token'))
+            const { videoId } = this.props.match.params
+            axios.defaults.headers.common['Authorization'] = "Bearer " + token
+            axios.delete(`http://localhost:5000/api/users/${url}/${videoId}`,)
+                .then(res => this.setState({[state]:false}))
+        
+        } catch(e) {
+            console.log('User not authed')
+        }
+    }
+
+
+    saveToUserProfile(url, state) {
         try {
             const { token, user_id, username } = JSON.parse(localStorage.getItem('auth_token'))
             const { videoId:video_id } = this.props.match.params
@@ -71,19 +95,14 @@ export default class MainVideoPage extends Component {
                     thumbnail:this.props.location.state.vidThumbnail,
                     views:this.state.mainvVideoContent.viewCount, 
                     published_at:this.state.mainvVideoContent.published})
-            }).catch( err => console.log(err))
+            })
+            .then(res => this.setState({[state]:true}))
+            .catch( err => console.log(err))
         } catch(error) {
             console.log(error)
         }
     }
-
-    saveToFavorites() {
-        this.saveToUserProfile('saveFavorites')
-    }
-
-    saveToLikes() {
-        this.saveToUserProfile('saveLikes')
-    }
+    
 
     saveToUserHistory() {
         try {
@@ -148,6 +167,8 @@ export default class MainVideoPage extends Component {
 
     
     componentDidMount() {
+        this.checkUserCategs("getUserLikes", 'isLiked');
+        this.checkUserCategs("getUserFavorites", 'isFavorited');
         const videoId = this.props.match.params.videoId
         this.getRecVideos(videoId, this.saveToUserHistory.bind(this))
         window.scrollTo(0, 0)
@@ -176,14 +197,16 @@ export default class MainVideoPage extends Component {
                             this.state.mainvVideoContent == null
                             ? <UserInteractionLoader />
                             : <UserInteraction
+                                isLiked={this.state.isLiked}
+                                isFavorited={this.state.isFavorited}
                                 onMouseEnterBlue={this.onMouseEnterBlue.bind(this)}
                                 onMouseLeaveBlue={this.onMouseLeaveBlue.bind(this)}
                                 onMouseEnterRed={this.onMouseEnterRed.bind(this)}
                                 onMouseLeaveRed={this.onMouseLeaveRed.bind(this)}
                                 iconColorRed={this.state.iconColorRed}
                                 iconColorBlue={this.state.iconColorBlue}
-                                saveToFavorites={this.saveToFavorites.bind(this)}
-                                saveToLikes={this.saveToLikes.bind(this)} 
+                                saveVideo={this.saveToUserProfile.bind(this)}
+                                removeVideo={this.removeVideo.bind(this)} 
                                 views={this.state.mainvVideoContent.viewCount}/>
                         }
 

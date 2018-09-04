@@ -120,6 +120,19 @@ module.exports = {
             })
         }
         
+    },
+
+    deleteVideo(table) {
+        return (req ,res, next) => {
+            const QUERY = `DELETE FROM ${table} WHERE ?`
+            connection.query(QUERY,[{video_id:req.params.videoId}], (err, response) => {
+                if(err) {
+                    console.log("EEeeeerrrroorororroro")
+                    console.log(err)
+                }
+                else res.status(200).json({message:"Success"})
+            })
+        }
     }
 
 }

@@ -3,14 +3,16 @@ import { Icon } from '../../Common'
 
 export default ({
         views,
-        saveToFavorites,
-        saveToLikes, 
+        saveVideo,
         iconColorRed, 
         iconColorBlue, 
         onMouseEnterRed, 
         onMouseLeaveRed, 
         onMouseEnterBlue, 
-        onMouseLeaveBlue
+        onMouseLeaveBlue,
+        isLiked,
+        isFavorited,
+        removeVideo
     }) => (
     <div className="userInteraction">
     
@@ -18,17 +20,31 @@ export default ({
 
         <div className="likes_and_shares">
 
-            <div onClick={() => saveToLikes()} style={{cursor:'pointer'}} onMouseLeave={onMouseLeaveBlue} onMouseEnter={onMouseEnterBlue}>
-                <Icon iconName={"fas fa-thumbs-up"} styles={{color:iconColorBlue, transition:'0.4s'}}/>
-                <span className={'likes_and_favs_style'} style={{color:iconColorBlue, transition:'0.4s'}}>Add To Likes</span>
-            </div>
+            {
+                isLiked
+                ? <div onClick={() => removeVideo('removeLikes', 'isLiked')} style={{cursor:'pointer'}} onMouseLeave={onMouseLeaveBlue} onMouseEnter={onMouseEnterBlue}>
+                    <Icon iconName={"fas fa-thumbs-up"} styles={{color:'dodgerblue', transition:'0.4s'}}/>
+                    <span className={'likes_and_favs_style'} style={{color:iconColorBlue, color:'dodgerblue', transition:'0.4s'}}>Added To Likes</span>
+                </div>
+                : <div onClick={() => saveVideo('saveLikes', 'isLiked')} style={{cursor:'pointer'}} onMouseLeave={onMouseLeaveBlue} onMouseEnter={onMouseEnterBlue}>
+                    <Icon iconName={"fas fa-thumbs-up"} styles={{color:iconColorBlue, transition:'0.4s'}}/>
+                    <span className={'likes_and_favs_style'} style={{color:iconColorBlue, fontSize:'14px', transition:'0.4s'}}>Add To Likes</span>
+                </div>
+            }
+            
 
           
-
-            <div onClick={() => saveToFavorites()} style={{cursor:'pointer'}} onMouseLeave={onMouseLeaveRed} onMouseEnter={onMouseEnterRed}>
-                <Icon iconName={"fas fa-heart"} styles={{color: iconColorRed, transition:'0.4s'}}/>
-                <span className={"likes_and_favs_style"} style={{color:iconColorRed, transition:'0.4s'}}>Add to Favorites</span>
-            </div>
+            {
+                isFavorited
+                ? <div onClick={() => removeVideo('removeFavs', 'isFavorited')} style={{cursor:'pointer'}} onMouseLeave={onMouseLeaveRed} onMouseEnter={onMouseEnterRed}>
+                    <Icon iconName={"fas fa-heart"} styles={{color: 'red', transition:'0.4s'}}/>
+                    <span className={"likes_and_favs_style"} style={{color:'red', transition:'0.4s'}}>Added to Favorites</span>
+                  </div>
+                : <div onClick={() => saveVideo('saveFavorites', 'isFavorited')} style={{cursor:'pointer'}} onMouseLeave={onMouseLeaveRed} onMouseEnter={onMouseEnterRed}>
+                    <Icon iconName={"fas fa-heart"} styles={{color: iconColorRed, transition:'0.4s'}}/>
+                    <span className={"likes_and_favs_style"} style={{color:iconColorRed, transition:'0.4s'}}>Add to Favorites</span>
+                  </div>
+            }
 
 
         </div>
