@@ -22,12 +22,18 @@ export default class HomePage extends Component {
     }
 
     callFrontPageApis(url,state) {
-        fetch(`http://localhost:5000/api/frontpage/${url}`)
+        try {
+            fetch(`http://localhost:5000/api/frontpage/${url}`)
             .then( res => res.json())
             .then( data => {
+                console.log(data)
                 data = data.slice(0,6)
                 this.setState({[state]:data})
             })
+        } catch(e) {
+            console.log('Faild to fetch')
+        }
+        
     }
 
     getVideoSections() {

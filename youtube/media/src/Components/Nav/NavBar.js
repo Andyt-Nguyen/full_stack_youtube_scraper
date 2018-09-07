@@ -24,15 +24,17 @@ class NavBar extends Component {
     state = {
         username: '',
         isSignedIn: false,
-        showMenu: false
+        showMenu: false,
+        avatar_url: ''
     }
 
     getUserName() {
         try {
             const local = JSON.parse(localStorage.getItem('auth_token'))
-            const username = local.username;
+            const username = local.username
+            const avatar_url = local.avatar_url
             console.log(username)
-            this.setState({username, isSignedIn:true})
+            this.setState({username, isSignedIn:true, avatar_url})
         } catch(e) {
             console.log('user not signed in')
         }  
@@ -96,7 +98,8 @@ class NavBar extends Component {
                     this.state.showMenu
                     ? <PopModule 
                         username={this.state.username} 
-                        logout={this.logoutUser.bind(this)}/>
+                        logout={this.logoutUser.bind(this)} 
+                        avatar_url={this.state.avatar_url}/>
                     : ''
                 }
             </div>

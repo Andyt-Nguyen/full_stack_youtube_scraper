@@ -57,6 +57,7 @@ module.exports = {
                       its own private/public key to make sure that it is verified.
 
                 */
+               console.log(req.users[0].avatar_image)
 
                 const token = jwt.sign({
                     username: req.users[0].username,  // This first parameter is the payload so what we want to pass into the token
@@ -66,7 +67,8 @@ module.exports = {
                 return res.status(200).json({
                     token, 
                     message:'Auth successful',
-                    username:req.users[0].username, 
+                    username:req.users[0].username,
+                    avatar_url: req.users[0].avatar_image, 
                     user_id: req.users[0].user_id})
             }
             // If the passwords don't match a message to the user Auth Failed will be returned back to the client

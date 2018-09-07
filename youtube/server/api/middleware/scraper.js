@@ -16,7 +16,8 @@ module.exports = {
             let viewsArr = [] // contains the views of the vod
             let mainContent = [] // Array that will combine all the content
 
-            request(url, (err, resp, html) => {
+            const parsedUrl = req.query.search_query ? req.query.search_query : ''
+            request(url + parsedUrl, (err, resp, html) => {
                 if(!err && resp.statusCode == 200) {
                     const $ = cheerio.load(html)
                     const thumbnails = $('.yt-thumb-simple img') // use .data('thumb') for id.attr('href')

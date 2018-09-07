@@ -66,7 +66,7 @@ export default class LoginPage extends Component {
               else this.setState({alreadyCreatedPass: false, isLoading:false})
               if(message === 'Auth successful') {
                   const expiredStorage = new ExpiredStorage() // stores jwt and a expiration time
-                  expiredStorage.setItem('auth_token', JSON.stringify({token:data.token,user_id: data.user_id, username:data.username}), 3600)
+                  expiredStorage.setItem('auth_token', JSON.stringify({token:data.token,user_id: data.user_id, username:data.username, avatar_url:data.avatar_url}), 3600)
                   this.props.history.push('/')
               }
             })

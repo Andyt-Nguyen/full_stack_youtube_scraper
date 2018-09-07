@@ -47,7 +47,6 @@ class UserPage extends Component {
         fetch(`http://localhost:5000/api/users/getUsersInfo/${this.props.match.params.username}`)
             .then( res => res.json() )
             .then( data => {
-                console.log('IMGAE',data[0].avatar_image)
                 this.setState({bgImage:data[0].bg_image, avatarImage: data[0].avatar_image})
             }
         )
