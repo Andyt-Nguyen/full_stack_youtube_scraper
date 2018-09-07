@@ -16,7 +16,7 @@
     font-size: 50px;
     position: absolute;
     left: -14px;
-    bottom: 27px;
+    bottom: 50px;
     z-index: 50000;
     opacity: 1;
 }
@@ -27,17 +27,15 @@
 */
 
 .homepage_container {
-    width: 100%;
+    width: 95%;
     height: 100vh;
     margin: 0 auto;
     margin-top:13px;
 }
 
 .home_page_video_and_content .thumbnail {
-    height: 88px;
-    width:180px;
-
-    /* 92px difference from width to height */
+    height: 100px;
+    width: 170px;
 }
 
 
@@ -46,9 +44,13 @@
 */
 
 .videos_container {
-    width: 380px;
+    width: 350px;
     margin: 0 auto;
     padding-bottom: 50px;
+}
+
+.home_channel_details {
+    width:150px;
 }
 
 
@@ -60,12 +62,15 @@
 .category_title {
     display: flex;
     justify-content: space-between;
-    width: 97%;
+    width: 93%;
     margin-bottom: 18px;
 }
 
 
 @media screen and (min-width:660px) {
+    .slick-next:before, .slick-prev:before {
+        bottom: 27px;
+    }
 
     .home_page_video_and_content .thumbnail {
         width: 210px;
@@ -80,6 +85,10 @@
 
     .category_title {
         width: 100%;
+    }
+
+    .home_channel_details {
+        width:190px;
     }
 
 }

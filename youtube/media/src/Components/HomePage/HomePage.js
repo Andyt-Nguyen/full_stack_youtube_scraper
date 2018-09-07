@@ -31,7 +31,7 @@ export default class HomePage extends Component {
                 this.setState({[state]:data})
             })
         } catch(e) {
-            console.log('Faild to fetch')
+            return []
         }
         
     }

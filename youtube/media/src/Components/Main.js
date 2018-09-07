@@ -14,7 +14,7 @@ export default class Main extends Component {
                 <Route exact path="/watch_vod/:videoId" component={ MainVideoPage } />
                 <Route exact path="/signin" component={ LoginPage } />
                 <Route exact path="/user/:username" component={ UserPage } />
-                <Route exact path="/search" component={ SearchPage } />
+                <Route exact path="/search/:query" component={ SearchPage } />
             </Switch>
         )
     }

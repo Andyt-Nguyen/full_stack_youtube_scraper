@@ -11,7 +11,7 @@ export default ({title, channelName, lastUploaded, views, img, videoId}) => (
             }}>
             <Thumbnail img={img} />
         </Link>
-        <div style={{width:'190px'}}>
+        <div className="home_channel_details">
             <p style={{fontFamily:'Roboto', paddingTop:'10px', fontSize:'14px', fontWeight:700}}>{title}</p>
             <div style={{marginTop:'10px'}}>
                 <p style={{fontFamily:'Roboto',fontSize:'14px', color:'#6e6e6e', fontWeight:400}}>{channelName}</p>

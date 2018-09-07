@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+import { Link,withRouter } from 'react-router-dom'
 import Button from '@material-ui/core/Button'
 import { withStyles } from '@material-ui/core/styles'
 import logo from './images/youtubelogo.png'
@@ -25,7 +25,8 @@ class NavBar extends Component {
         username: '',
         isSignedIn: false,
         showMenu: false,
-        avatar_url: ''
+        avatar_url: '',
+        searchQuery:''
     }
 
     getUserName() {
@@ -45,6 +46,12 @@ class NavBar extends Component {
         window.location.reload()
     }
 
+    handleSearch(e) {
+        e.preventDefault()
+        this.props.history.push(`/search/${this.state.searchQuery}`)
+        
+    }
+
     componentDidMount() {
         this.getUserName()
     }
@@ -52,19 +59,19 @@ class NavBar extends Component {
     render() {
         return (
             <div>
-                <div style={{margin:'0 auto', boxShadow:"0 2px 2px 0 rgba(0, 0, 0, 0.1), 0 2px 2px 0 rgba(0, 0, 0, 0.1)"}}>
+                <div style={{boxShadow:"0 2px 2px 0 rgba(0, 0, 0, 0.1), 0 2px 2px 0 rgba(0, 0, 0, 0.1)"}}>
                     <nav className="navStyle">
                         <div style={{display:'flex', alignItems: 'center'}}>
                             <i style={{marginRight: '10px'}} className="fas fa-bars"></i>
                             <Link to="/"><img src={logo} /></Link>
                         </div>
 
-                        <div className="nav_input_wrapper">
+                        <form onSubmit={this.handleSearch.bind(this)} className="nav_input_wrapper">
                             <div className="nav_input_container">
-                                <input className="nav_input" type="text" />
+                                <input onChange={e => this.setState({searchQuery:e.target.value}) } className="nav_input" type="text" />
                                 <button className="nav_search_btn"><Icon iconName={"fas fa-search"} /></button>
                             </div>
-                        </div>
+                        </form>
                   
 
 
@@ -107,4 +114,5 @@ class NavBar extends Component {
     }
 }  
 
-export default withStyles(styles)(NavBar)
+const styledNav = withStyles(styles)(NavBar)
+export default withRouter(styledNav)
