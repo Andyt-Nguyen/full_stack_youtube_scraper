@@ -46,7 +46,6 @@ export default class SearchPage extends Component {
         this.getSearchedVideo()
     }
     render() {
-        console.log(this.state)
         return (
             <React.Fragment>
                 <NavBar />

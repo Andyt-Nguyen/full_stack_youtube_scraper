@@ -2,6 +2,20 @@ const request = require('request') // make api request
 const cheerio = require('cheerio') // web crawler
 const connection = require('../../config/connection')
 const moment = require('moment') // makes timestamp
+
+
+// Error Cotent if there is something wrong with the api
+let singleContent = {
+    title: 'Not found',
+    description: 'Not found',
+    channelName: 'Not found',
+    lastUploaded: 'Not found',
+    viewCount: 'Not found', 
+    thumbnail: 'https://placehold.it/300', 
+    videoDuration: 'Not found', 
+    videoIds: 'Not found'}
+
+
 module.exports = {
     youtubeScraper(url) {
         return (req, res, next) => {
@@ -85,17 +99,11 @@ module.exports = {
                             
                 } else {
                     console.log(err)
-                    let singleContent = {
-                        title: 'Not found',
-                        description: 'Not found',
-                        channelName: 'Not found',
-                        lastUploaded: 'Not found',
-                        viewCount: 'Not found', 
-                        thumbnail: 'https://placehold.it/300', 
-                        videoDuration: 'Not found', 
-                        videoIds: 'Not found'}
-                        
-                    req.videos = singleContent
+                    let errorArr = []                    
+                    for(let i = 0; i < 7; i++) {
+                        errorArr.push(singleContent)
+                    }
+                    req.videos = errorArr
                     next()
                 }
             })
@@ -110,7 +118,7 @@ module.exports = {
             let recViewCounts = []
             let videosIdArr = []
             let videoTitles = []
-            let mainContent = []
+            let recVideoContent = []
 
             request(url + req.params.videoId, (err, resp, html) => {
                 if(!err && resp.statusCode === 200) {
@@ -168,10 +176,28 @@ module.exports = {
                             views: recViewCounts[i],
                             title: videoTitles[i]
                         }
-                        mainContent.push(videoContent)
+                        recVideoContent.push(videoContent)
                     }
-                    req.videos = [mainContent, mainVideoContent]
+
+                    req.videos = [recVideoContent, mainVideoContent]
                     next()
+                } else {
+                    console.log(err)
+                    let recVideoContent = []
+                    for(let i = 0; i < videoTitles.length; i++) {
+                        let videoContent = {
+                            thumbnail: 'Not Found',
+                            channelName: 'Not Found',
+                            duration: 'Not Found',
+                            videoId: 'Not Found',
+                            views: 'Not Found',
+                            title: 'Not Found'
+                        }
+                        recVideoContent.push(videoContent)
+                    }
+
+                    req.videos = [recVideoContent, singleContent]
+                
                 }
             })
         } 

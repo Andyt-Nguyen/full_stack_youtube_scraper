@@ -13,6 +13,7 @@ import TitleLoader from './SubComponents/Loader/TitleLoader'
 import UserInteractionLoader from './SubComponents/Loader/UserInteractionLoader'
 import UserInfoLoader from './SubComponents/Loader/UserInfoLoader'
 import MainVideoLoader from './SubComponents/Loader/MainVideoLoader'
+import Snackbar from '@material-ui/core/Snackbar';
 
 import './css/main_video.css'
 import './css/media_query_471.css'
@@ -22,12 +23,14 @@ export default class MainVideoPage extends Component {
     constructor() {
         super()
         this.state = {
+            openMessage:false,
             recVideos: null,
             mainvVideoContent: null,
             iconColorRed: '#b1b1b1',
             iconColorBlue: '#b1b1b1',
             isFavorited: false,
-            isLiked: false
+            isLiked: false,
+            snackBarMessage: ''
         }
     }
 
@@ -47,6 +50,7 @@ export default class MainVideoPage extends Component {
     onMouseLeaveBlue() {
         this.setState({iconColorBlue:'#b1b1b1'})
     }
+    
 
     checkUserCategs(url, state) {
         try{
@@ -55,7 +59,6 @@ export default class MainVideoPage extends Component {
                 .then(res => res.json())
                 .then(data => {
                     const findLikedVideo = data.videos.filter( a => a.video_id == this.props.match.params.videoId);
-                    console.log(findLikedVideo)
                     if(findLikedVideo.length < 1) this.setState({[state]:false})
                     else if(findLikedVideo.length >= 1) this.setState({[state]:true})
                 });
@@ -64,13 +67,13 @@ export default class MainVideoPage extends Component {
         }   
     }
 
-    removeVideo(url, state) {
+    removeVideo(url, state, message) {
         try {
             const { token } = JSON.parse(localStorage.getItem('auth_token'))
             const { videoId } = this.props.match.params
             axios.defaults.headers.common['Authorization'] = "Bearer " + token
             axios.delete(`http://localhost:5000/api/users/${url}/${videoId}`,)
-                .then(res => this.setState({[state]:false}))
+                .then(res => this.setState({[state]:false, snackBarMessage:message, openMessage:true}))
         
         } catch(e) {
             console.log('User not authed')
@@ -78,7 +81,7 @@ export default class MainVideoPage extends Component {
     }
 
 
-    saveToUserProfile(url, state) {
+    saveToUserProfile(url='', state='', message='') {
         try {
             const { token, user_id, username } = JSON.parse(localStorage.getItem('auth_token'))
             const { videoId:video_id } = this.props.match.params
@@ -96,10 +99,11 @@ export default class MainVideoPage extends Component {
                     views:this.state.mainvVideoContent.viewCount, 
                     published_at:this.state.mainvVideoContent.published})
             })
-            .then(res => this.setState({[state]:true}))
+            .then(res => this.setState({[state]:true, snackBarMessage:message, openMessage:true}))
             .catch( err => console.log(err))
         } catch(error) {
             console.log(error)
+            this.setState({[state]:true, snackBarMessage:'You are not signed in', openMessage:true})
         }
     }
     
@@ -232,6 +236,13 @@ export default class MainVideoPage extends Component {
                     </RecommendedVideos>
                 </div>
             </div>
+
+             <Snackbar
+                anchorOrigin={{ vertical:'bottom', horizontal:'center' }}
+                open={this.state.openMessage}
+                onClose={() => this.setState({openMessage:false})}
+                autoHideDuration={2000}
+                message={<span style={{textAlign:'center'}} id="message-id">{this.state.snackBarMessage}</span>} />
             </React.Fragment>
         )
     }

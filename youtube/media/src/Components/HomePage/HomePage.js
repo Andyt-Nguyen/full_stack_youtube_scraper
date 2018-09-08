@@ -27,8 +27,7 @@ export default class HomePage extends Component {
             .then( res => res.json())
             .then( data => {
                 // Handle errors here
-                console.log(data)
-                if(data.length < 3) {
+                if(data.length < 6) {
                     this.setState({[state]: data})
                 } else {
                     data = data.slice(0,6)

@@ -34,7 +34,6 @@ class NavBar extends Component {
             const local = JSON.parse(localStorage.getItem('auth_token'))
             const username = local.username
             const avatar_url = local.avatar_url
-            console.log(username)
             this.setState({username, isSignedIn:true, avatar_url})
         } catch(e) {
             console.log('user not signed in')
