@@ -26,6 +26,7 @@ export default class HomePage extends Component {
             fetch(`http://localhost:5000/api/frontpage/${url}`)
             .then( res => res.json())
             .then( data => {
+                // Handle errors here
                 console.log(data)
                 data = data.slice(0,6)
                 this.setState({[state]:data})

@@ -1,4 +1,5 @@
 import React from 'react'
+import LinearProgress from '@material-ui/core/LinearProgress'
 import { withStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import AddIcon from '@material-ui/icons/Add';
@@ -22,6 +23,12 @@ const styles = {
 
 const UserForm = (props) => (
     <div className="card_modal">
+    {
+        props.loadingPreviewImage
+        ? <LinearProgress color={'secondary'} />
+        : ''
+    }
+    
         <div className="art_header">
             <h3 style={{paddingBottom:20}}>Channel Art</h3>
             <p style={{borderBottom:'3px solid dodgerblue', width:150}}>Upload your photo</p>

@@ -42,10 +42,6 @@ export default class SearchPage extends Component {
         }
     }
 
-    renderSkeletonLoader() {
-        
-    }
-
     componentDidMount() {
         this.getSearchedVideo()
     }

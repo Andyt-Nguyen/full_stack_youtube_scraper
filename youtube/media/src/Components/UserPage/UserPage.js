@@ -39,9 +39,11 @@ class UserPage extends Component {
         openBgModal: false,
         openAvatarModal: false,
         bgImage: '',
-        avatarImage: ''
+        avatarImage: '',
+        loadingPreviewImage: false
 
     }
+
 
     getUsersInfo() {
         fetch(`http://localhost:5000/api/users/getUsersInfo/${this.props.match.params.username}`)
@@ -54,38 +56,32 @@ class UserPage extends Component {
 
 
     handleDrop = (files, event) => {
-        this.setState({selectedFile:files[0]}, () => {
+        // Add loader
+        this.setState({selectedFile:files[0], loadingPreviewImage:true}, () => {
             const picFile = this.state.selectedFile
             if(picFile !== '') {
                 let reader = new FileReader(); //Using File Reader API to convert file string
                 let url = reader.readAsDataURL(picFile); //Converts file string to DataURL
                 reader.onloadend = (e) => { //onloadend checks to see if the image is done downloading
-                    this.setState({currentPic:reader.result}) //.result retuns the url string to the image
+                    this.setState({loadingPreviewImage:false,currentPic:reader.result}) //.result retuns the url string to the image
                 }
             }
         })
     }
 
 
-    onChange = (e) => {
-        switch (e.target.name) {
-          case 'selectedFile':
-            this.setState({ selectedFile: e.target.files[0] });
-            break;
-          default:
-            this.setState({ [e.target.name]: e.target.value });
-        }
-    }
-
-
-    submitPicture(url) {
+    submitPicture(url, state) {
         try {
             const {token, user_id} = JSON.parse(localStorage.getItem('auth_token'))
             const { selectedFile } = this.state;
             let formData = new FormData();
             formData.append('bg_images', selectedFile);
             axios.defaults.headers.common['Authorization'] = "Bearer " + token
-            axios.put(`http://localhost:5000/api/users/${url}/${user_id}`, formData)
+            this.setState({loadingPreviewImage: true}, () => {
+                axios.put(`http://localhost:5000/api/users/${url}/${user_id}`, formData)
+                this.setState({[state]:this.state.currentPic}, () => this.setState({currentPic:'',openBgModal:false, openAvatarModal:false})) 
+            })
+             
 
         } catch(err) {
             console.log(err)
@@ -124,9 +120,10 @@ class UserPage extends Component {
                         {
                         this.state.openBgModal
                         ? <UserForm
+                            loadingPreviewImage={this.state.loadingPreviewImage}
                             showBgModal={true}
                             handleDrop={this.handleDrop}
-                            submitPicture={() => this.submitPicture('upload_bg_img')}
+                            submitPicture={() => this.submitPicture('upload_bg_img', 'bgImage')}
                             currentPic={this.state.currentPic}
                             openBgModal={() => this.setState({openBgModal:false})}
                             removeCurrentPic={() => this.setState({currentPic:''})} />
@@ -154,7 +151,7 @@ class UserPage extends Component {
                         ? <UserForm
                             showBgModal={false}
                             handleDrop={this.handleDrop}
-                            submitPicture={() => this.submitPicture('upload_avatar_img')}
+                            submitPicture={() => this.submitPicture('upload_avatar_img', 'avatarImage')}
                             currentPic={this.state.currentPic}
                             openBgModal={() => this.setState({openAvatarModal:false})}
                             removeCurrentPic={() => this.setState({currentPic:''})} />
@@ -178,7 +175,6 @@ class UserPage extends Component {
 
 
     render() {
-        console.log(this.state.avatarImage)
         return(
             <div>
                 <NavBar />

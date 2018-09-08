@@ -11,7 +11,9 @@ router.post('/signin', getUsers, signInUser) // sign up users
 
 // Updating Picutes
 router.put('/upload_bg_img/:userId', validate, upload.single('bg_images'), uploadImage('bg_image'))
-router.put('/upload_avatar_img/:userId', validate, upload.single('bg_images'), uploadImage('avatar_image'))
+router.put('/upload_avatar_img/:userId', validate, upload.single('bg_images'), uploadImage('avatar_image'), (req, res) => {
+    res.json({test:'tester'})
+})
 
 // Saving Videos
 router.post('/saveHistory', validate, getVideos('user_history'), saveUserVideo('user_history')) // add to user history
