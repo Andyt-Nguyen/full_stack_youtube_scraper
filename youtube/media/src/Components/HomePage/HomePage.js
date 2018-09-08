@@ -28,11 +28,16 @@ export default class HomePage extends Component {
             .then( data => {
                 // Handle errors here
                 console.log(data)
-                data = data.slice(0,6)
-                this.setState({[state]:data})
+                if(data.length < 3) {
+                    this.setState({[state]: data})
+                } else {
+                    data = data.slice(0,6)
+                    this.setState({[state]:data})
+                }
             })
         } catch(e) {
-            return []
+            console.log(e)
+            this.setState({[state]:[]})
         }
         
     }

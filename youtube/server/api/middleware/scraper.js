@@ -85,7 +85,17 @@ module.exports = {
                             
                 } else {
                     console.log(err)
-                    req.videos = [];
+                    let singleContent = {
+                        title: 'Not found',
+                        description: 'Not found',
+                        channelName: 'Not found',
+                        lastUploaded: 'Not found',
+                        viewCount: 'Not found', 
+                        thumbnail: 'https://placehold.it/300', 
+                        videoDuration: 'Not found', 
+                        videoIds: 'Not found'}
+                        
+                    req.videos = singleContent
                     next()
                 }
             })
