@@ -67,7 +67,7 @@ module.exports = {
                     token, 
                     message:'Auth successful',
                     username:req.users[0].username,
-                    avatar_url: req.users[0].avatar_image, 
+                    avatar_url: req.users[0].avatar_image != null ? req.users[0].avatar_image : '', 
                     user_id: req.users[0].user_id})
             }
             // If the passwords don't match a message to the user Auth Failed will be returned back to the client
@@ -134,5 +134,4 @@ module.exports = {
             })
         }
     }
-
 }
