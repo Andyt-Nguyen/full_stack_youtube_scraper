@@ -8,6 +8,6 @@ export default ({videoId}) => (
             height="480" 
             frameBorder="0" 
             allowFullScreen
-            src={`http://www.youtube.com/embed/${videoId}`} allow="autoplay; encrypted-media" />
+            src={`https://www.youtube.com/embed/${videoId}`} allow="autoplay; encrypted-media" />
     </div>
 )
