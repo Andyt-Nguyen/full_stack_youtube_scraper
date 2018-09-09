@@ -11,6 +11,7 @@ import NavBar from '../Nav/NavBar'
 import UploadPreview from 'material-ui-upload/UploadPreview';
 import UserForm from './SubComponents/UserForm'
 import placeholderImage from './styles/placeholder.jpg'
+import placeholderAvatar from './styles/kitty.png'
 
 // Styles to override predefined css styles
 const styles = {
@@ -46,12 +47,25 @@ class UserPage extends Component {
 
 
     getUsersInfo() {
-        fetch(`/api/users/getUsersInfo/${this.props.match.params.username}`)
-            .then( res => res.json() )
+        try {
+            fetch(`/api/users/getUsersInfo/${this.props.match.params.username}`)
+            .then( res => {
+                if(res.status == 200) return res.json()})
             .then( data => {
-                this.setState({bgImage:data[0].bg_image, avatarImage: data[0].avatar_image})
+                const { bg_image, avatar_image } = data[0]
+                this.setState({
+                    bgImage:bg_image == undefined || bg_image == null ? placeholderImage : bg_image,
+                    avatarImage: avatar_image == undefined || avatar_image == null ? placeholderAvatar : avatar_image
+                })
             }
         )
+        } catch(e) {
+            this.setState({
+                bgImage: placeholderImage,
+                avatarImage: placeholderAvatar
+            })
+        }
+        
     }
 
 

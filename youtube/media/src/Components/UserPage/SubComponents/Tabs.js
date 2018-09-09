@@ -34,30 +34,22 @@ class SimpleTabs extends React.Component {
     }
   }
 
-  renderHistoryVideos() {
-    return this.state.historyVideos.map( a => (
-      <VideoAndContent
-          container_style={{marginTop:20, marginRight:3}}
-          videoId={a.video_id}
-          img={a.thumbnail}
-          views={a.views}
-          lastUploaded={a.lastUploaded}
-          title={a.title}
-          channelName={a.channel_name} />
-    ))
-  }
-
   renderCategVideos(stateName) {
-    return this.state[stateName].map( a => (
-      <VideoAndContent
-          container_style={{marginTop:20, marginRight:3}}
-          videoId={a.video_id}
-          img={a.thumbnail}
-          views={a.views}
-          lastUploaded={a.lastUploaded}
-          title={a.title}
-          channelName={a.channel_name} />
-    ))
+    if(this.state[stateName].length === 0) {
+      return <p style={{textAlign:'center'}}>You have no videos saved</p>
+    } else {
+      return this.state[stateName].map( a => (
+        <VideoAndContent
+            container_style={{marginTop:20, marginRight:3}}
+            videoId={a.video_id}
+            img={a.thumbnail}
+            views={a.views}
+            lastUploaded={a.lastUploaded}
+            title={a.title}
+            channelName={a.channel_name} />
+      ))
+    }
+    
   }
 
 
