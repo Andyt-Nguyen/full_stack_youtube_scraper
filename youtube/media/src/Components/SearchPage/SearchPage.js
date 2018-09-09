@@ -12,7 +12,7 @@ export default class SearchPage extends Component {
 
     getSearchedVideo() {
         const { query } = this.props.match.params;
-        fetch(`http://localhost:5000/api/query/result?search_query=${query}`)
+        fetch(`/api/query/result?search_query=${query}`)
             .then( res => res.json())
             .then( data => this.setState({videos:data}))
     }

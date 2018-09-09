@@ -46,7 +46,7 @@ class UserPage extends Component {
 
 
     getUsersInfo() {
-        fetch(`http://localhost:5000/api/users/getUsersInfo/${this.props.match.params.username}`)
+        fetch(`/api/users/getUsersInfo/${this.props.match.params.username}`)
             .then( res => res.json() )
             .then( data => {
                 this.setState({bgImage:data[0].bg_image, avatarImage: data[0].avatar_image})
@@ -78,7 +78,7 @@ class UserPage extends Component {
             formData.append('bg_images', selectedFile);
             axios.defaults.headers.common['Authorization'] = "Bearer " + token
             this.setState({loadingPreviewImage: true}, () => {
-                axios.put(`http://localhost:5000/api/users/${url}/${user_id}`, formData)
+                axios.put(`/api/users/${url}/${user_id}`, formData)
                 this.setState({[state]:this.state.currentPic}, () => this.setState({currentPic:'',openBgModal:false, openAvatarModal:false})) 
             })
              

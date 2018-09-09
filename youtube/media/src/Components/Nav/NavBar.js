@@ -42,6 +42,7 @@ class NavBar extends Component {
 
     logoutUser() {
         window.localStorage.clear()
+        this.props.history.push('/')
         window.location.reload()
     }
 
