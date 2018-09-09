@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import NavBar from '../Nav/NavBar'
-import Category from './SubComponents/Category';
 import './css/style.css'
 import VideoAndContent from './SubComponents/VideoAndContent';
 import Slider from 'react-slick'

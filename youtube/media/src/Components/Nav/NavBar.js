@@ -75,9 +75,9 @@ class NavBar extends Component {
 
         
                         <div className="nav_icon_container">
-                            <Icon iconName={"fas fa-upload"} />
-                            <Icon iconName={"fas fa-share"} />
-                            <Icon iconName={"fas fa-bell"} />
+                            <Icon styles={{cursor:'not-allowed'}} iconName={"fas fa-upload"} />
+                            <Icon styles={{cursor:'not-allowed'}} iconName={"fas fa-share"} />
+                            <Icon styles={{cursor:'not-allowed'}} iconName={"fas fa-bell"} />
                             
 
                             {

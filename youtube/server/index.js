@@ -20,11 +20,13 @@ app.use(bodyParser.json())
 app.use(cors())
 
 
+
 // Api Routes
 app.use("/uploads",express.static(__dirname+'/uploads'))
 app.use('/api/frontpage',frontPageRoutes)
 app.use('/api/users', userRoute)
 app.use('/api/query', queryRoute)
+// app.use('/',express.static(path.join(__dirname,'build')))
 
 
 
