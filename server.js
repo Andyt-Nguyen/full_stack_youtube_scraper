@@ -25,13 +25,12 @@ app.use("/uploads",express.static(__dirname+'/uploads'))
 app.use('/api/frontpage',frontPageRoutes)
 app.use('/api/users', userRoute)
 app.use('/api/query', queryRoute)
-app.use(express.static(path.join(__dirname,'media/build')))
+app.use(express.static(path.join(__dirname, 'NotFound')))
+app.use(express.static(path.join(__dirname,'build_client')))
 
-
-app.get('*', (req,res) =>{
-    res.sendFile(path.join(__dirname,'media/build/index.html'));
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
-
 
 // error handling
 app.use((req, res, next) => {
@@ -42,10 +41,8 @@ app.use((req, res, next) => {
 
 
 app.use((err, req, res, next) => {
-    res.status(err.status || 500)
-    res.json({error:{
-        message: err.message
-    }})
+    // res.status(err.status || 500)
+    res.sendFile(path.join(__dirname,'NotFound','404.html'))
 })
 
 
