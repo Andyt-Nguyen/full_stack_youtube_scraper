@@ -29,7 +29,7 @@ app.use(express.static(path.join(__dirname,'media/build')))
 
 
 app.get('*', (req,res) =>{
-    res.sendFile(path.join(__dirname+'/media/build/index.html'));
+    res.sendFile(path.join(__dirname,'media/build/index.html'));
 });
 
 
