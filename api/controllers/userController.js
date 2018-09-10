@@ -1,5 +1,5 @@
 const connection = require('../../config/connection')
-const cloud = require('../../config/cloudinary')
+const cloudinary = require('../../config/cloud')
 const bcrypt = require('bcrypt')
 const uuid = require('uuid')
 const jwt = require('jsonwebtoken')
@@ -113,7 +113,7 @@ module.exports = {
         return (req, res, next) => {
             const QUERY = `UPDATE users SET ? where ?`
             const fileName = req.file
-            return cloud.v2.uploader.upload(fileName.path, (error, result) => {
+            return cloudinary.v2.uploader.upload(fileName.path, (error, result) => {
                 if(error) {
                     return res.status(403).json({message:error})
                 } else {
