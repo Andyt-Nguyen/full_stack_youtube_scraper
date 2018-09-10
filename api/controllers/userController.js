@@ -1,5 +1,5 @@
 const connection = require('../../config/connection')
-const cloudinary = require('../../config/cloud')
+const cloudinary = require('cloudinary')
 const bcrypt = require('bcrypt')
 const uuid = require('uuid')
 const jwt = require('jsonwebtoken')
@@ -111,6 +111,12 @@ module.exports = {
 
     uploadImage(field) {
         return (req, res, next) => {
+            cloudinary.config({ 
+                cloud_name: process.env.CLOUD_NAME, 
+                api_key: process.env.CLOUD_API_KEY, 
+                api_secret: process.env.CLOUD_API_SECRET 
+            })
+
             const QUERY = `UPDATE users SET ? where ?`
             const fileName = req.file
             return cloudinary.v2.uploader.upload(fileName.path, (error, result) => {
