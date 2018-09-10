@@ -19,8 +19,8 @@ module.exports = {
     getUsersInfo(req, res, next) {
         const { username } = req.params;
         // Checks if there are any users that have that same username and pushes it into an array
-        const QUERY = `SELECT username, bg_image, avatar_image FROM users WHERE username = ?`
-        connection.query(QUERY,[username], (err, response) => {
+        const QUERY = `SELECT username, bg_image, avatar_image FROM users WHERE ?`
+        connection.query(QUERY,[{username}], (err, response) => {
             if(err) {
                 res.status(500).json({message:err})
 

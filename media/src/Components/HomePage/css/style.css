@@ -1,0 +1,113 @@
+/* 
+    Next and Prev styles for carrosel
+ */
+
+ .slick-prev {
+    left: 17px;
+    z-index: 500000;
+}
+
+.slick-next {
+    right: 17px;
+}
+
+.slick-next:before, .slick-prev:before {
+    color: white;
+    font-size: 50px;
+    position: absolute;
+    left: -14px;
+    bottom: 50px;
+    z-index: 50000;
+    opacity: 1;
+}
+
+
+/* 
+    HomePage container that contains the whole page
+*/
+
+.homepage_container {
+    width: 95%;
+    height: 100vh;
+    margin: 0 auto;
+    margin-top:13px;
+}
+
+.home_page_video_and_content .thumbnail {
+    height: 100px;
+    width: 170px;
+}
+
+
+/* 
+    This is styling the contents inside the container
+*/
+
+.videos_container {
+    width: 350px;
+    margin: 0 auto;
+    padding-bottom: 50px;
+}
+
+.home_channel_details {
+    width:150px;
+}
+
+
+/* 
+    This is the categories that each video is categorize as
+    like games, comedy, movies, etc.
+*/
+
+.category_title {
+    display: flex;
+    justify-content: space-between;
+    width: 93%;
+    margin-bottom: 18px;
+}
+
+
+@media screen and (min-width:660px) {
+    .slick-next:before, .slick-prev:before {
+        bottom: 27px;
+    }
+
+    .home_page_video_and_content .thumbnail {
+        width: 210px;
+        height: 118px;
+    }
+    
+
+    .videos_container {
+        width: 640px;
+        margin: 0 auto;
+    }
+
+    .category_title {
+        width: 100%;
+    }
+
+    .home_channel_details {
+        width:190px;
+    }
+
+}
+
+@media screen and (min-width:870px) {
+    .videos_container {
+        width: 850px;
+    }
+}
+
+@media screen and (min-width:1130px) {
+    .videos_container {
+        width: 1065px;
+    }
+}
+
+@media screen and (min-width:1300px) {
+    .videos_container {
+        width: 1275px;
+    }
+}
+

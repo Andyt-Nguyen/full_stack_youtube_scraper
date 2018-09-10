@@ -1,4 +1,5 @@
 const connection = require('../../config/connection')
+const cloudinary = require('../../config/cloudinary')
 const bcrypt = require('bcrypt')
 const uuid = require('uuid')
 const jwt = require('jsonwebtoken')
@@ -66,8 +67,7 @@ module.exports = {
                 return res.status(200).json({
                     token, 
                     message:'Auth successful',
-                    username:req.users[0].username,
-                    avatar_url: req.users[0].avatar_image ? req.users[0].avatar_image : '', 
+                    username:req.users[0].username, 
                     user_id: req.users[0].user_id})
             }
             // If the passwords don't match a message to the user Auth Failed will be returned back to the client
@@ -112,15 +112,24 @@ module.exports = {
     uploadImage(field) {
         return (req, res, next) => {
             const QUERY = `UPDATE users SET ? where ?`
-            const fileName = req.file.filename.replace(' ','')
-            connection.query(QUERY,[
-                {[field]: "http://localhost:5000/uploads/" + fileName}, 
-                {user_id:req.params.userId}], (err, response) => {
-                    if(err) console.log(err)
-                    else console.log(res)
+            const fileName = req.file
+            return cloudinary.v2.uploader.upload(fileName.path, (error, result) => {
+                if(error) {
+                    return res.status(403).json({message:error})
+                } else {
+                    connection.query(QUERY,[
+                        {[field]: result.url}, 
+                        {user_id:req.params.userId}
+                    ], (err, response) => {
+                            if(err) return res.status(402).json({message:err})
+                            else return res.status(200).json({
+                                message:'File uploaded',
+                                imageUrl: result.url
+                            })
+                    })
+                }
             })
         }
-        
     },
 
     deleteVideo(table) {

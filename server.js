@@ -3,13 +3,13 @@ const path = require('path')
 const bodyParser = require('body-parser') // parses incoming json
 const mysql = require('mysql2') // mysql db
 const cors = require('cors') // allow cross origin sites
-// const morgan = require('morgan') // logs the time of each route
 const fs = require('fs') // read and write files
 const app = express() // create instance of express()
 const PORT = process.env.PORT || 5000 // heroku inserts ther env port
 const frontPageRoutes = require('./api/routes/frontPageRoute') // youtube front page routes
 const userRoute = require('./api/routes/userRoute')
 const queryRoute = require('./api/routes/queryRoute')
+// const morgan = require('morgan') // logs the time of each route
 
 // Middleware
 // app.use(morgan('dev'))
@@ -20,14 +20,17 @@ app.use(bodyParser.json())
 // app.use(cors())
 
 
-
 // Api Routes
 app.use("/uploads",express.static(__dirname+'/uploads'))
 app.use('/api/frontpage',frontPageRoutes)
 app.use('/api/users', userRoute)
 app.use('/api/query', queryRoute)
-app.use('/',express.static(path.join(__dirname,'build_client')))
+app.use(express.static(path.join(__dirname,'media/build')))
 
+
+app.get('*', (req,res) =>{
+    res.sendFile(path.join(__dirname+'/media/build/index.html'));
+});
 
 
 // error handling

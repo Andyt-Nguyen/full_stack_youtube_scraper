@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const { registerUser, signInUser, saveUserVideo, getUserVideoCateg, uploadImage,deleteVideo } = require('../controllers/userController')
+const { registerUser, signInUser, saveUserVideo, getUserVideoCateg, uploadImage, deleteVideo } = require('../controllers/userController')
 const { getUsers, getUsersInfo, getVideos } = require('../middleware/getUsers')
 const validate = require('../middleware/check_auth')
 const upload = require('../middleware/storingImages')
