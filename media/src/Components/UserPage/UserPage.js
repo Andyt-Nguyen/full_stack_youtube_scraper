@@ -49,7 +49,7 @@ class UserPage extends Component {
 
     getUsersInfo() {
         try {
-            fetch(`/api/users/getUsersInfo/${this.props.match.params.username}`)
+            fetch(`http://localhost:5000/api/users/getUsersInfo/${this.props.match.params.username}`)
             .then( res => {
                 if(res.status == 200) {
                     return res.json()
@@ -106,7 +106,7 @@ class UserPage extends Component {
             let formData = new FormData();
             formData.append('bg_images', selectedFile);
 
-            fetch(`/api/users/${url}/${user_id}`, {
+            fetch(`http://localhost:5000/api/users/${url}/${user_id}`, {
                 method: 'PUT',
                 headers: {
                     'Authorization': "Bearer " + token

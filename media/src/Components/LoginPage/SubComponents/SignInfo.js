@@ -55,8 +55,8 @@ export default ({
         <p onClick={() => switchView()} style={{cursor:'pointer', textAlign:'center', color:'dodgerblue'}}>
             {
                 isSign
-                ? "Already have an account? Sign in"
-                : "Dont't have an account? Sign up"
+                ? "Dont't have an account? Sign up"
+                : "Already have an account? Sign in"
             }
                     
         </p>   

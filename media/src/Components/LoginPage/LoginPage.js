@@ -32,7 +32,7 @@ export default class LoginPage extends Component {
         this.setState({isLoading:true})
         if(username.length < 5) return this.setState({isLoading:false, isUsername:true, usernameMsg: 'You need 5 characters or more to create a username'})
         if(password.length < 5) return this.setState({isLoading:false, isPassword:true, passwordMsg: 'You need 5 characters or more to create a password'})
-        fetch('/api/users/register', {
+        fetch('http://localhost:5000/api/users/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -51,7 +51,7 @@ export default class LoginPage extends Component {
     loginUser(){
         const { username, password } = this.state
         this.setState({isLoading:true})
-        fetch('/api/users/signin', {
+        fetch('http://localhost:5000/api/users/signin', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

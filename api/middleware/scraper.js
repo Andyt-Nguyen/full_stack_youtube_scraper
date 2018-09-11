@@ -32,7 +32,6 @@ module.exports = {
 
             const parsedUrl = req.query.search_query ? req.query.search_query : ''
             request(url + parsedUrl, (err, resp, html) => {
-
                 if(!err && resp.statusCode == 200) {
                     const $ = cheerio.load(html)
                     const thumbnails = $('.yt-thumb-simple img') // use .data('thumb') for id.attr('href')

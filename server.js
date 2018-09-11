@@ -17,7 +17,7 @@ app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
 
 // Allow CORS
-// app.use(cors())
+app.use(cors())
 
 
 // Api Routes

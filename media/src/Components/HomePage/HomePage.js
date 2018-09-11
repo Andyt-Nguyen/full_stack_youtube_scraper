@@ -22,7 +22,7 @@ export default class HomePage extends Component {
 
     callFrontPageApis(url,state) {
         try {
-            fetch(`/api/frontpage/${url}`)
+            fetch(`http://localhost:5000/api/frontpage/${url}`)
             .then( res => res.json())
             .then( data => {
                 // Handle errors here
