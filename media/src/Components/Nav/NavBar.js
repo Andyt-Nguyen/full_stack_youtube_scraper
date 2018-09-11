@@ -33,7 +33,7 @@ class NavBar extends Component {
     getUserName() {
         try {
             const { username } = JSON.parse(localStorage.getItem('auth_token'))
-            fetch(`http://localhost:5000/api/users/getUsersInfo/${username}`)
+            fetch(`/api/users/getUsersInfo/${username}`)
                 .then( res => res.json())
                 .then(data => {
                     try {

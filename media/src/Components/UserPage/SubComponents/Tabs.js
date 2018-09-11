@@ -26,7 +26,7 @@ class SimpleTabs extends React.Component {
 
   getUsersVideoCategs(url, state) {
     try {
-      fetch(`http://localhost:5000/api/users/${url}/${this.props.match.params.username}`)
+      fetch(`/api/users/${url}/${this.props.match.params.username}`)
         .then( res => res.json())
         .then( data => this.setState({[state]:data.videos}))
     } catch(error) {

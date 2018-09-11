@@ -55,7 +55,7 @@ export default class MainVideoPage extends Component {
     checkUserCategs(url, state) {
         try{
             const { username } = JSON.parse(localStorage.getItem('auth_token'))
-            fetch(`http://localhost:5000/api/users/${url}/${username}`)
+            fetch(`/api/users/${url}/${username}`)
                 .then(res => res.json())
                 .then(data => {
                     const findLikedVideo = data.videos.filter( a => a.video_id == this.props.match.params.videoId);
@@ -72,7 +72,7 @@ export default class MainVideoPage extends Component {
             const { token } = JSON.parse(localStorage.getItem('auth_token'))
             const { videoId } = this.props.match.params
             axios.defaults.headers.common['Authorization'] = "Bearer " + token
-            axios.delete(`http://localhost:5000/api/users/${url}/${videoId}`,)
+            axios.delete(`/api/users/${url}/${videoId}`,)
                 .then(res => this.setState({[state]:false, snackBarMessage:message, openMessage:true}))
         
         } catch(e) {
@@ -85,7 +85,7 @@ export default class MainVideoPage extends Component {
         try {
             const { token, user_id, username } = JSON.parse(localStorage.getItem('auth_token'))
             const { videoId:video_id } = this.props.match.params
-            fetch(`http://localhost:5000/api/users/${url}`, {
+            fetch(`/api/users/${url}`, {
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json',
@@ -112,7 +112,7 @@ export default class MainVideoPage extends Component {
         try {
             const { token, user_id, username } = JSON.parse(localStorage.getItem('auth_token'))
             const { videoId:video_id } = this.props.match.params
-            fetch('http://localhost:5000/api/users/saveHistory', {
+            fetch('/api/users/saveHistory', {
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json',
@@ -132,7 +132,7 @@ export default class MainVideoPage extends Component {
     }
 
     getRecVideos(videoId, cb) {
-        fetch(`http://localhost:5000/api/query/recommended/${videoId}`)
+        fetch(`/api/query/recommended/${videoId}`)
             .then( res => res.json() )
             .then( recVideos => this.setState({ mainvVideoContent:recVideos[1],recVideos:recVideos[0]}, () => cb()))
     }

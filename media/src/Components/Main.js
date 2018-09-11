@@ -9,7 +9,7 @@ import NotFound from './NotFound/NotFound'
 
 const findUser = (username) => {
     let found = []
-    fetch(`http://localhost:5000/api/users/getUsersInfo/${username}`)
+    fetch(`/api/users/getUsersInfo/${username}`)
     .then( res => res.json())
     .then( data => found = data);
 
