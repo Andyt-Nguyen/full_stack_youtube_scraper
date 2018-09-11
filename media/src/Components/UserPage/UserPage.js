@@ -119,6 +119,8 @@ class UserPage extends Component {
                     this.setState({loadingPreviewImage: true}, () => {
                         this.setState({[state]:this.state.currentPic}, () => this.setState({currentPic:'',openBgModal:false, openAvatarModal:false})) 
                     })
+                }).catch(err => {
+                    this.setState({openMessage:true}, () => this.setState({currentPic:'',openBgModal:false, openAvatarModal:false})) 
                 })             
 
         } catch(err) {
