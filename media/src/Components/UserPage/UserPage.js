@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Snackbar from '@material-ui/core/Snackbar';
 import { Redirect } from 'react-router-dom'
 import Button from '@material-ui/core/Button'
 import AddIcon from '@material-ui/icons/Add';
@@ -42,7 +43,8 @@ class UserPage extends Component {
         openAvatarModal: false,
         bgImage: '',
         avatarImage: '',
-        loadingPreviewImage: false
+        loadingPreviewImage: false,
+        openMessage: false
 
     }
 
@@ -120,7 +122,7 @@ class UserPage extends Component {
                 })             
 
         } catch(err) {
-            console.log(err)
+            this.setState({openMessage:true}, () => this.setState({currentPic:'',openBgModal:false, openAvatarModal:false})) 
         }
     }
 
@@ -224,6 +226,13 @@ class UserPage extends Component {
                     username={this.props.match.params.username} 
                     avatarImage={this.state.avatarImage}/>
                 <Tabs />
+
+                <Snackbar
+                    anchorOrigin={{ vertical:'bottom', horizontal:'center' }}
+                    open={this.state.openMessage}
+                    onClose={() => this.setState({openMessage:false})}
+                    autoHideDuration={2000}
+                    message={<span id="message-id">File cannot be uploaded at this time</span>} />
             </div>
         )
     }
