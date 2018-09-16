@@ -165,6 +165,7 @@ export default class MainVideoPage extends Component {
         this.setState({recVideos:null, mainvVideoContent:null})
         if (this.props.match.params.videoId !== nextProps.match.params.videoId) {
             this.getRecVideos(nextProps.match.params.videoId, this.saveToUserHistory.bind(this))
+            this.setState({isLiked:false,isFavorited:false})
             window.scrollTo(0, 0)
         }
     }
