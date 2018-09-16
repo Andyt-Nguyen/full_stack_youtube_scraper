@@ -134,7 +134,10 @@ export default class MainVideoPage extends Component {
     getRecVideos(videoId, cb) {
         fetch(`/api/query/recommended/${videoId}`)
             .then( res => res.json() )
-            .then( recVideos => this.setState({ mainvVideoContent:recVideos[1],recVideos:recVideos[0]}, () => cb()))
+            .then( recVideos => this.setState({
+                isLiked:false,isFavorited:false, 
+                mainvVideoContent:recVideos[1],recVideos:recVideos[0]}, 
+                () => cb()))
     }
 
     renderRecVideos() {
@@ -165,7 +168,6 @@ export default class MainVideoPage extends Component {
         this.setState({recVideos:null, mainvVideoContent:null})
         if (this.props.match.params.videoId !== nextProps.match.params.videoId) {
             this.getRecVideos(nextProps.match.params.videoId, this.saveToUserHistory.bind(this))
-            this.setState({isLiked:false,isFavorited:false})
             window.scrollTo(0, 0)
         }
     }
