@@ -58,10 +58,10 @@ export default class MainVideoPage extends Component {
             fetch(`/api/users/${url}/${username}`)
                 .then(res => res.json())
                 .then(data => {
-                    const findLikedVideo = data.videos.filter( a => a.video_id == this.props.match.params.videoId);
+                    const findLikedVideo = data.videos.filter( a => a.video_id == this.props.match.params.videoId)
                     if(findLikedVideo.length < 1) this.setState({[state]:false})
                     else if(findLikedVideo.length >= 1) this.setState({[state]:true})
-                });
+                })
         } catch(e) {
             return ''
         }   
@@ -100,10 +100,10 @@ export default class MainVideoPage extends Component {
                     published_at:this.state.mainvVideoContent.published})
             })
             .then(res => this.setState({[state]:true, snackBarMessage:message, openMessage:true}))
-            .catch( err => console.log(err))
+            .catch( err => this.setState({[state]:false, snackBarMessage:'You are not signed in', openMessage:true}))
         } catch(error) {
             console.log(error)
-            this.setState({[state]:true, snackBarMessage:'You are not signed in', openMessage:true})
+            this.setState({[state]:false, snackBarMessage:'You are not signed in', openMessage:true})
         }
     }
     
@@ -171,8 +171,8 @@ export default class MainVideoPage extends Component {
 
     
     componentDidMount() {
-        this.checkUserCategs("getUserLikes", 'isLiked');
-        this.checkUserCategs("getUserFavorites", 'isFavorited');
+        this.checkUserCategs("getUserLikes", 'isLiked')
+        this.checkUserCategs("getUserFavorites", 'isFavorited')
         const videoId = this.props.match.params.videoId
         this.getRecVideos(videoId, this.saveToUserHistory.bind(this))
         window.scrollTo(0, 0)

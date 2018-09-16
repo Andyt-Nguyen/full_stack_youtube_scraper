@@ -31,7 +31,7 @@ export default ({
                     <span className={'likes_and_favs_style'} style={{color:iconColorBlue, fontSize:'14px', transition:'0.4s'}}>Add To Likes</span>
                 </div>
             }
-            
+        
 
           
             {
