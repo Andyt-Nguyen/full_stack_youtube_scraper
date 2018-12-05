@@ -4,6 +4,8 @@ The goal of this project is to build a full stack application cloning youtube wi
 Though users cannot upload their own videos they can search and view contents of the video as well as 
 save and like videos when they create an account.
 
+### View the application [here](https://youcrube.herokuapp.com/)
+
 # Final Product
 ## Home page
 ![](./images/homepage.png)
