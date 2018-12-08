@@ -1,4 +1,4 @@
-# Youtube Scraper FullStack
+# Youtube Scraper
 
 The goal of this project is to build a full stack application scraping youtubes data.
 Though users cannot upload their own videos they can search and view contents of the video as well as 
